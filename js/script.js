@@ -1,112 +1,108 @@
-//Game 1
 
-const secret_key = "database";
-let entryCount = 0;
-const limitCount = 3;
+//Player Name
+let player;
+//Used for developer view / consolelog
+let devParam = "Testing";
+//Game Difficulty defaults
+let gameDif = "Easy";
+let dungeonRooms = 3;
 
-function runGuesser (){
-    function createChecker(correctKey){
-        function checkKey(inputKey){
-            return inputKey === correctKey;
-        }
-        return checkKey;
+const playerStats = {
+    HP: 5,
+    Attack: 2
+}
+
+const enemyStats = {
+    HP: 2,
+    Attack: 1
+}
+
+const roomsDescriptions =[ "Dark room", "Bright room", "Red room"];
+
+function DeveloperView(devParam){
+    //show variable on console
+        console.log(devParam);
     }
+
+function getPlayerName(){
+    player = prompt("Ingrese Nombre del Jugador:");
+
+    if (player === null || player === ""){
+        alert("Nombre invalido");
+        let names = ["Blade", "Lego", "Mah"];
+        alert("Tu nombre será elegido aleatoreamente");
+        min = 0;
+        max = names.length -1;
+        player = names[Math.floor(Math.random() * (max - min + 1)) + min];
+    }
+}
+
+function gameDifficulty(){
+    do {
+        gameDif = prompt("Ingrese Dificultad:\n - Easy\n - Hard");
+    }
+    while (gameDif === null || gameDif === "" );
+
+    if (gameDif == "Hard" || gameDif == "hard"){
+        dungeonRooms = 5;
+        alert("Dificultad elegida Hard");
+        gameDif = "Hard";
+    }
+    else if (gameDif == "Easy" || gameDif == "easy"){
+        alert("Dificultad elegida Easy");
+        gameDif = "Easy"
+    }
+    else{
+        alert("Dificultad invalida, seleccionaremos dificultad Easy");
+        gameDif = "Easy";
+    }
+}
+
+function startGame(){
+    alert(`Bienvenido ${player}, la dificultad elegida es ${gameDif} y el Dungeon incluye ${dungeonRooms} rooms `);
+}
+
+function exploration(){
+    while(dungeonRooms > 0){
+    //Random room description
+    min = 0;
+    max = roomsDescriptions.length -1;
+    currentRoom = roomsDescriptions[Math.floor(Math.random() * (max - min + 1)) + min];
+
+    alert(`Te encuentras en una ${currentRoom}`);
+    dungeonRooms--;
+    DeveloperView(dungeonRooms);
+
+    //check encounter and treasure
+    let encounter = Math.random();
+    let checktreasure = Math.random();
+    console.log(checktreasure);
+    console.log(encounter);
     
-    while (entryCount < limitCount){
-        const inputUser = prompt("ingrese clave para pasar de nivel");
-        const checker = createChecker(secret_key);
-        if(checker(inputUser)){
-            console.log("nivel 3")
-            break;
-        }
-        else{
-            entryCount++;
-            if(entryCount === limitCount){
-                alert("denegado");
-            }
-        }
+    if (encounter <= 0.5){
+        combat();      
+    } 
+    if(checktreasure >= 0.75){
+        console.log(checktreasure);
+        treasure();    
     }
-
+}
+exit();
 }
 
-runGuesser();
-
-
-
-/*
-
-//Variables
-// keyword + name = value;
-
-let usuario = "Juan";
-const server = "192.168.10.68" //Const no cambia el valor luego de su declaración
-
-//metodo de escritura // camelCase //  Esto es una pregunta para ver si hay stock
-let isStock = false;
-
-//uso de tab y break
-console.log("productos: \narroz \tqueso jamon");
-
-// backtics `` desbloquea template string (${})
-
-// || significa o
-
-console.log("Im " + usuario);
-console.log("Im", usuario);
-console.log(`Im ${usuario}`);
-
-// methos and properties
-
-let nickName = "PeTeR";
-
-console.log(nickName.toLowerCase());
-console.log(nickName.toLowerCase());
-
-let greetings = "Hi everyone!";
-console.log(greetings.startsWith("Hi")); //devuelve un true o false
-
-console.log(greetings.length); //calcular longitud... cantidad de chars en este caso
-
-console.log(greetings.replace("Hi", "Hello")); //reemplaza Hi por Hello en la variable greetings
-
-console.log(nickName.includes("P")); //si incluye o no lo que esta en comillas
-
-*/
-
-/* 
-Ejercicio 1
-let cantidad = parseInt(prompt('INGRESE CANTIDAD DE REPETICIONES'));
-let texto = prompt('INGRESE TEXTO A REPETIR');
-for (let index = 0; index < cantidad; index) {
-    cantidad --;
-console.log(texto);
-console.log(cantidad);
-console.log(typeof(cantidad));
+function exit(){
+    console.log("salida");
 }
 
-Ejercicio 2
-let lados = prompt('INGRESE CANTIDAD DE LADOS');
-for (let index = 0; index < lados; index++) {
-if (index > 3) {
-}
-alert("lado");
+function combat(){
+console.log("combate");
 }
 
-Ejercicio 3
-let numero = prompt("ingresar numero:");
-
-if(numero%2 == 0){
-    console.log(numero);
+function treasure(){
+    console.log("tesoro");
 }
 
-//Calculadora
-
-let num1 = prompt("Enter number:")
-let num2 = prompt("Enter number:")
-
-parseFloat(num1);
-parseFloat(num2);
-
-document.write(num1+num2);
-
-*/
+getPlayerName();
+gameDifficulty();
+startGame();
+exploration();
