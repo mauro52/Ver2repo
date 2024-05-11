@@ -8,15 +8,18 @@ let gameDif = "Easy";
 let dungeonRooms = 3;
 
 const playerStats = {
+    lvl: 1,
     HP: 5,
     Attack: 2
 }
 
 const enemyStats = {
+    lvl : 1,
     HP: 2,
     Attack: 1
 }
 
+const enemies =["Skeleton", "Goblin", "Bat", "Rat"];
 const roomsDescriptions =[ "Dark room", "Bright room", "Red room"];
 
 function DeveloperView(devParam){
@@ -83,7 +86,6 @@ function exploration(){
         combat();      
     } 
     if(checktreasure >= 0.75){
-        console.log(checktreasure);
         treasure();    
     }
 }
@@ -96,6 +98,17 @@ function exit(){
 
 function combat(){
 console.log("combate");
+
+//random enemy
+min = 0;
+max = enemies.length -1;
+currentEnemy = enemies[Math.floor(Math.random() * (max - min + 1)) + min];
+alert(`Te encuentras son un ${currentEnemy}`);
+let userInput = prompt("Atacar o Escapar: ");
+
+if (userInput == "atacar" || userInput == "Atacar"){
+console.log("Atacando");
+}
 }
 
 function treasure(){
