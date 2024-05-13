@@ -30,8 +30,8 @@ const enemies = ["un Orco", "un Goblin", "un Murcielago", "una Rata"];
 
 //Dungeon Rooms and descriptions
 const roomsDescriptions = {
-    roomName : ["la Morgue", "la Cripta", "la Sala oscura", "la Bóveda", "la Prisión", "la Sala con una Estatua"],
-    roomDesc : ["Antorchas enclavadas en las paredes de piedra proyectan sombras titilantes sobre el suelo polvoriento lleno de tripas. Una pesada puerta de hierro está entreabierta, sus bisagras crujen suavemente en el aire rancio.", "Sarcófagos de piedra descansan en nichos a lo largo de las paredes, sus tapas adornadas con runas descoloridas. El aire está cargado con el olor a descomposición, y telarañas se aferran al techo como velos espectrales.", "Estanterías llenas de frascos y tarros polvorientos alinean las paredes, cada uno conteniendo sustancias misteriosas de varios colores. Un caldero burbujeante se encuentra sobre un fuego crepitante, enviando volutas de humo coloreado al aire.", "Montones de relucientes monedas de oro y gemas preciosas brillan en la luz tenue, amontonadas sobre pedestales de piedra antiguos. Artefactos engastados con joyas y armas ornamentadas se exhiben en estantes forrados de terciopelo, sus superficies pulidas hasta obtener un brillo intenso.", "Barras de hierro dividen las cámaras angostas, cada una con una cama oxidada y un suelo cubierto de paja. Ecos tenues de gemidos distantes y cadenas que golpean llenan el silencio opresivo, otorgando una atmósfera inquietante al aire frío y húmedo.", "Una estatua grandiosa de piedra tallada domina la cámara, flanqueado por otros adornos imponentes de reyes olvidados. Banderas desgarradas cuelgan de las paredes, sus colores descoloridos llevan los sigilos de casas nobles hace mucho extintas."]
+    roomName: ["la Morgue", "la Cripta", "la Sala oscura", "la Bóveda", "la Prisión", "la Sala con una Estatua"],
+    roomDesc: ["Antorchas enclavadas en las paredes de piedra proyectan sombras titilantes sobre el suelo polvoriento lleno de tripas. Una pesada puerta de hierro está entreabierta, sus bisagras crujen suavemente en el aire rancio.", "Sarcófagos de piedra descansan en nichos a lo largo de las paredes, sus tapas adornadas con runas descoloridas. El aire está cargado con el olor a descomposición, y telarañas se aferran al techo como velos espectrales.", "Estanterías llenas de frascos y tarros polvorientos alinean las paredes, cada uno conteniendo sustancias misteriosas de varios colores. Un caldero burbujeante se encuentra sobre un fuego crepitante, enviando volutas de humo coloreado al aire.", "Montones de relucientes monedas de oro y gemas preciosas brillan en la luz tenue, amontonadas sobre pedestales de piedra antiguos. Artefactos engastados con joyas y armas ornamentadas se exhiben en estantes forrados de terciopelo, sus superficies pulidas hasta obtener un brillo intenso.", "Barras de hierro dividen las cámaras angostas, cada una con una cama oxidada y un suelo cubierto de paja. Ecos tenues de gemidos distantes y cadenas que golpean llenan el silencio opresivo, otorgando una atmósfera inquietante al aire frío y húmedo.", "Una estatua grandiosa de piedra tallada domina la cámara, flanqueado por otros adornos imponentes de reyes olvidados. Banderas desgarradas cuelgan de las paredes, sus colores descoloridos llevan los sigilos de casas nobles hace mucho extintas."]
 }
 
 //show variable on console
@@ -40,7 +40,7 @@ function DeveloperView(devParam) {
 }
 
 function getPlayerName() {
-    playerStats.name = prompt("Ingrese Nombre del Jugador:");
+    playerStats.name = prompt(`Este es un juego de exploración basado en texto. Exploras un Dungeon lleno de enemigos y tesoros. Si tienes suerte, saldrás con vida.\n\nIngrese Nombre del Jugador:`);
 
     if (playerStats.name === null || playerStats.name === "") {
         alert("Nombre invalido");
@@ -50,7 +50,6 @@ function getPlayerName() {
         max = names.length - 1;
         playerStats.name = names[Math.floor(Math.random() * (max - min + 1)) + min];
     }
-    alert("Este es un juego de exploración basado en texto. Exploras un Dungeon lleno de enemigos y tesoros. Si tienes suerte, saldrás con vida.");
 }
 
 function gameDifficulty() {
@@ -59,7 +58,7 @@ function gameDifficulty() {
         gameDif = prompt("Ingrese Dificultad:\n - Easy\n - Hard");
     }
     while (gameDif === null || gameDif === "");
-    
+
     inputDif = gameDif.toLowerCase();
 
     if (inputDif == "hard") {
@@ -92,8 +91,7 @@ function exploration() {
         let currentRoom = roomsDescriptions.roomName[indexRoom];
         let currentRoomDesc = roomsDescriptions.roomDesc[indexRoom];
 
-        alert(`Te encuentras en ${currentRoom}`);
-        alert(`${currentRoomDesc}`);
+        alert(`Te encuentras en ${currentRoom}\n${currentRoomDesc}`);
 
         dungeonRooms--;
         DeveloperView(dungeonRooms);
@@ -108,22 +106,23 @@ function exploration() {
             max = enemies.length - 1;
             currentEnemy = enemies[Math.floor(Math.random() * (max - min + 1)) + min];
             alert(`En ${currentRoom}, te encuentras con ${currentEnemy}`);
-            
+
             let userInput;
-            let userInputResult;
-            do{
-                userInput = prompt("Atacar o Escapar: ");
+            do {
+                userInput = prompt(`1. Atacar\n2. Escapar:`);
             }
             while (userInput === null || userInput === "");
-            
-            userInputResult = userInput.toLowerCase();
 
-            if (userInputResult == "atacar") {
+            if (userInput == "1") {
                 combat(currentEnemy);
             }
-            else if (userInputResult == "escapar"){
+            else if (userInput == "2") {
                 console.log("escape");
                 checktreasure = 0; // Si escapa, no puede buscar tesoros.
+            }
+            else{
+                alert(`Respuesta inválida. ${currentEnemy} te ataca`);
+                combat(currentEnemy);
             }
         }
         if (checktreasure >= 0.75) {
@@ -138,7 +137,7 @@ function exit() {
     alert("Encontraste la salida del Dungeon, felicitaciones.");
 }
 
-function score(){
+function score() {
     alert(`Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`);
 }
 
