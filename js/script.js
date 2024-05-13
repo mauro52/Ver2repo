@@ -9,7 +9,7 @@ const playerStats = {
     name: "",
     lvl: 1,
     hp: 5,
-    Attack: 2
+    attack: 2
 }
 
 //enemy info
@@ -22,7 +22,7 @@ const enemyStats = {
 const dungeonScore = {
     kills: 0,
     rooms: 0,
-    items: 0,
+    items: 0
 }
 
 //enemy types
@@ -30,7 +30,7 @@ const enemies = ["un Orco", "un Goblin", "un Murcielago", "una Rata"];
 
 //Dungeon Rooms and descriptions
 const roomsDescriptions = {
-    roomName : ["Morgue", "Cripta", "Sala oscura", "Bóveda", "Prisión", "Sala con una Estatua"],
+    roomName : ["la Morgue", "la Cripta", "la Sala oscura", "la Bóveda", "la Prisión", "la Sala con una Estatua"],
     roomDesc : ["Antorchas enclavadas en las paredes de piedra proyectan sombras titilantes sobre el suelo polvoriento lleno de tripas. Una pesada puerta de hierro está entreabierta, sus bisagras crujen suavemente en el aire rancio.", "Sarcófagos de piedra descansan en nichos a lo largo de las paredes, sus tapas adornadas con runas descoloridas. El aire está cargado con el olor a descomposición, y telarañas se aferran al techo como velos espectrales.", "Estanterías llenas de frascos y tarros polvorientos alinean las paredes, cada uno conteniendo sustancias misteriosas de varios colores. Un caldero burbujeante se encuentra sobre un fuego crepitante, enviando volutas de humo coloreado al aire.", "Montones de relucientes monedas de oro y gemas preciosas brillan en la luz tenue, amontonadas sobre pedestales de piedra antiguos. Artefactos engastados con joyas y armas ornamentadas se exhiben en estantes forrados de terciopelo, sus superficies pulidas hasta obtener un brillo intenso.", "Barras de hierro dividen las cámaras angostas, cada una con una cama oxidada y un suelo cubierto de paja. Ecos tenues de gemidos distantes y cadenas que golpean llenan el silencio opresivo, otorgando una atmósfera inquietante al aire frío y húmedo.", "Una estatua grandiosa de piedra tallada domina la cámara, flanqueado por otros adornos imponentes de reyes olvidados. Banderas desgarradas cuelgan de las paredes, sus colores descoloridos llevan los sigilos de casas nobles hace mucho extintas."]
 }
 
@@ -91,13 +91,13 @@ function exploration() {
         let currentRoom = roomsDescriptions.roomName[indexRoom];
         let currentRoomDesc = roomsDescriptions.roomDesc[indexRoom];
 
-        alert(`Te encuentras en una ${currentRoom}`);
+        alert(`Te encuentras en ${currentRoom}`);
         alert(`${currentRoomDesc}`);
 
         dungeonRooms--;
         DeveloperView(dungeonRooms);
 
-        //check for encounter (comnbat) and treasure
+        //check for encounter (combat) and treasure
         let encounter = Math.random();
         let checktreasure = Math.random();
 
@@ -148,7 +148,7 @@ function combat(enemy) {
 }
 
 function treasure() {
-    alert("Encuentras un tesoro al explorar tus alrededores.");
+    alert("Luego de recorrer la sala, encuentras un tesoro al explorar tus alrededores.");
     dungeonScore.items++;
     // en desarrollo para proximas entregas
 }
