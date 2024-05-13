@@ -1,3 +1,3 @@
 ## Js
 
-Text Dungeon crawler game.
+Text Dungeon crawling game.

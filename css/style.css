@@ -1,5 +1,6 @@
-h1 {
-  background-color: blue;
+h1{
+  display: flex;
+  justify-content: center;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -19,6 +19,12 @@ const enemyStats = {
     attack: 1
 }
 
+const dungeonScore = {
+    kills: 0,
+    rooms: 0,
+    items: 0,
+}
+
 //enemy types
 const enemies = ["un Orco", "un Goblin", "un Murcielago", "una Rata"];
 
@@ -58,13 +64,16 @@ function gameDifficulty() {
     if (inputDif == "hard") {
         dungeonRooms = 5;
         gameDif = "Hard";
+        dungeonScore.rooms = dungeonRooms;
     }
     else if (inputDif == "easy") {
         gameDif = "Easy"
+        dungeonScore.rooms = dungeonRooms;
     }
     else {
         alert("Dificultad invalida, seleccionaremos dificultad Easy");
         gameDif = "Easy";
+        dungeonScore.rooms = dungeonRooms;
     }
 }
 
@@ -121,19 +130,26 @@ function exploration() {
         }
     }
     exit();
+    score();
 }
 
 function exit() {
     alert("Encontraste la salida del Dungeon, felicitaciones.");
 }
 
+function score(){
+    alert(`Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`);
+}
+
 function combat(enemy) {
     alert(`Combates con ${enemy} y ganas la batalla. Continuas explorando.`)
+    dungeonScore.kills++;
     // en desarrollo para proximas entregas
 }
 
 function treasure() {
     alert("Encuentras un tesoro al explorar tus alrededores.");
+    dungeonScore.items++;
     // en desarrollo para proximas entregas
 }
 
