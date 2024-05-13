@@ -50,6 +50,7 @@ function getPlayerName() {
         max = names.length - 1;
         playerStats.name = names[Math.floor(Math.random() * (max - min + 1)) + min];
     }
+    alert("Este es un juego de exploración basado en texto. Exploras un Dungeon lleno de enemigos y tesoros. Si tienes suerte, saldrás con vida.");
 }
 
 function gameDifficulty() {
