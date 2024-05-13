@@ -1,118 +1,140 @@
-
-//Player Name
-let player;
 //Used for developer view / consolelog
 let devParam = "Testing";
 //Game Difficulty defaults
 let gameDif = "Easy";
 let dungeonRooms = 3;
 
+//player info
 const playerStats = {
+    name: "",
     lvl: 1,
-    HP: 5,
+    hp: 5,
     Attack: 2
 }
 
+//enemy info
 const enemyStats = {
-    lvl : 1,
-    HP: 2,
-    Attack: 1
+    lvl: 1,
+    hp: 2,
+    attack: 1
 }
 
-const enemies =["Skeleton", "Goblin", "Bat", "Rat"];
-const roomsDescriptions =[ "Dark room", "Bright room", "Red room"];
+//enemy types
+const enemies = ["un Orco", "un Goblin", "un Murcielago", "una Rata"];
 
-function DeveloperView(devParam){
-    //show variable on console
-        console.log(devParam);
-    }
+//Dungeon Rooms and descriptions
+const roomsDescriptions = {
+    roomName : ["Morgue", "Cripta", "Sala oscura", "Bóveda", "Prisión", "Sala con una Estatua"],
+    roomDesc : ["Antorchas enclavadas en las paredes de piedra proyectan sombras titilantes sobre el suelo polvoriento lleno de tripas. Una pesada puerta de hierro está entreabierta, sus bisagras crujen suavemente en el aire rancio.", "Sarcófagos de piedra descansan en nichos a lo largo de las paredes, sus tapas adornadas con runas descoloridas. El aire está cargado con el olor a descomposición, y telarañas se aferran al techo como velos espectrales.", "Estanterías llenas de frascos y tarros polvorientos alinean las paredes, cada uno conteniendo sustancias misteriosas de varios colores. Un caldero burbujeante se encuentra sobre un fuego crepitante, enviando volutas de humo coloreado al aire.", "Montones de relucientes monedas de oro y gemas preciosas brillan en la luz tenue, amontonadas sobre pedestales de piedra antiguos. Artefactos engastados con joyas y armas ornamentadas se exhiben en estantes forrados de terciopelo, sus superficies pulidas hasta obtener un brillo intenso.", "Barras de hierro dividen las cámaras angostas, cada una con una cama oxidada y un suelo cubierto de paja. Ecos tenues de gemidos distantes y cadenas que golpean llenan el silencio opresivo, otorgando una atmósfera inquietante al aire frío y húmedo.", "Una estatua grandiosa de piedra tallada domina la cámara, flanqueado por otros adornos imponentes de reyes olvidados. Banderas desgarradas cuelgan de las paredes, sus colores descoloridos llevan los sigilos de casas nobles hace mucho extintas."]
+}
 
-function getPlayerName(){
-    player = prompt("Ingrese Nombre del Jugador:");
+//show variable on console
+function DeveloperView(devParam) {
+    console.log(devParam);
+}
 
-    if (player === null || player === ""){
+function getPlayerName() {
+    playerStats.name = prompt("Ingrese Nombre del Jugador:");
+
+    if (playerStats.name === null || playerStats.name === "") {
         alert("Nombre invalido");
         let names = ["Blade", "Lego", "Mah"];
         alert("Tu nombre será elegido aleatoreamente");
         min = 0;
-        max = names.length -1;
-        player = names[Math.floor(Math.random() * (max - min + 1)) + min];
+        max = names.length - 1;
+        playerStats.name = names[Math.floor(Math.random() * (max - min + 1)) + min];
     }
 }
 
-function gameDifficulty(){
+function gameDifficulty() {
+    let inputDif;
     do {
         gameDif = prompt("Ingrese Dificultad:\n - Easy\n - Hard");
     }
-    while (gameDif === null || gameDif === "" );
+    while (gameDif === null || gameDif === "");
+    
+    inputDif = gameDif.toLowerCase();
 
-    if (gameDif == "Hard" || gameDif == "hard"){
+    if (inputDif == "hard") {
         dungeonRooms = 5;
-        alert("Dificultad elegida Hard");
         gameDif = "Hard";
     }
-    else if (gameDif == "Easy" || gameDif == "easy"){
-        alert("Dificultad elegida Easy");
+    else if (inputDif == "easy") {
         gameDif = "Easy"
     }
-    else{
+    else {
         alert("Dificultad invalida, seleccionaremos dificultad Easy");
         gameDif = "Easy";
     }
 }
 
-function startGame(){
-    alert(`Bienvenido ${player}, la dificultad elegida es ${gameDif} y el Dungeon incluye ${dungeonRooms} rooms `);
+function startGame() {
+    alert(`Bienvenido ${playerStats.name}, la dificultad elegida es ${gameDif} y el Dungeon incluye ${dungeonRooms} rooms `);
 }
 
-function exploration(){
-    while(dungeonRooms > 0){
-    //Random room description
-    min = 0;
-    max = roomsDescriptions.length -1;
-    currentRoom = roomsDescriptions[Math.floor(Math.random() * (max - min + 1)) + min];
+function exploration() {
+    while (dungeonRooms > 0) {
+        //Get index of Random room and description
+        min = 0;
+        max = roomsDescriptions.roomName.length - 1;
+        let indexRoom = Math.floor(Math.random() * (max - min + 1)) + min;
 
-    alert(`Te encuentras en una ${currentRoom}`);
-    dungeonRooms--;
-    DeveloperView(dungeonRooms);
+        let currentRoom = roomsDescriptions.roomName[indexRoom];
+        let currentRoomDesc = roomsDescriptions.roomDesc[indexRoom];
 
-    //check encounter and treasure
-    let encounter = Math.random();
-    let checktreasure = Math.random();
-    console.log(checktreasure);
-    console.log(encounter);
-    
-    if (encounter <= 0.5){
-        combat();      
-    } 
-    if(checktreasure >= 0.75){
-        treasure();    
+        alert(`Te encuentras en una ${currentRoom}`);
+        alert(`${currentRoomDesc}`);
+
+        dungeonRooms--;
+        DeveloperView(dungeonRooms);
+
+        //check for encounter (comnbat) and treasure
+        let encounter = Math.random();
+        let checktreasure = Math.random();
+
+        if (encounter <= 0.5) {
+            //Select random enemy
+            min = 0;
+            max = enemies.length - 1;
+            currentEnemy = enemies[Math.floor(Math.random() * (max - min + 1)) + min];
+            alert(`En ${currentRoom}, te encuentras con ${currentEnemy}`);
+            
+            let userInput;
+            let userInputResult;
+            do{
+                userInput = prompt("Atacar o Escapar: ");
+            }
+            while (userInput === null || userInput === "");
+            
+            userInputResult = userInput.toLowerCase();
+
+            if (userInputResult == "atacar") {
+                combat(currentEnemy);
+            }
+            else if (userInputResult == "escapar"){
+                console.log("escape");
+                checktreasure = 0; // Si escapa, no puede buscar tesoros.
+            }
+        }
+        if (checktreasure >= 0.75) {
+            treasure();
+        }
     }
-}
-exit();
-}
-
-function exit(){
-    console.log("salida");
+    exit();
 }
 
-function combat(){
-console.log("combate");
-
-//random enemy
-min = 0;
-max = enemies.length -1;
-currentEnemy = enemies[Math.floor(Math.random() * (max - min + 1)) + min];
-alert(`Te encuentras son un ${currentEnemy}`);
-let userInput = prompt("Atacar o Escapar: ");
-
-if (userInput == "atacar" || userInput == "Atacar"){
-console.log("Atacando");
-}
+function exit() {
+    alert("Encontraste la salida del Dungeon, felicitaciones.");
 }
 
-function treasure(){
-    console.log("tesoro");
+function combat(enemy) {
+    alert(`Combates con ${enemy} y ganas la batalla. Continuas explorando.`)
+    // en desarrollo para proximas entregas
+}
+
+function treasure() {
+    alert("Encuentras un tesoro al explorar tus alrededores.");
+    // en desarrollo para proximas entregas
 }
 
 getPlayerName();
