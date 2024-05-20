@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,22 @@
     <script src="js/script.js" defer></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <h1>Text Dungeon Crawling Game</h1>
-    <p>Este es un juego de exploración basado en texto. Exploras un Dungeon lleno de enemigos y tesoros. Si tienes suerte, saldrás con vida.</p>
-    <script>
-    //js
-    </script>
+    <section>
+        <p>Este es un juego de exploración basado en texto. Exploras un Dungeon lleno de enemigos y tesoros. Si tienes
+            suerte, saldrás con vida.</p>
+        <p>Elige tu nombre</p>
+        <input id="playerName" type="text">
+        <button id="playerNamebutton">Submit</button>
+        <p>Tu nombre es <span id="spanName"></span> </p>
+        <p>Selecciona la dificultad:</p>
+        <button onclick="gameDifficulty(easy)">Easy</button>
+        <button onclick="gameDifficulty(hard)">Hard</button>
+    </section>
+
+    
 </body>
+
 </html>

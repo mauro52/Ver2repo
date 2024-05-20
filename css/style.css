@@ -1,13 +1,7 @@
-h1{
+h1 {
   display: flex;
   justify-content: center;
-}
-
-p{
-  display: flex;
-  justify-content: center;
-  margin-top: 20%;
-  font-size: larger;
+  background-color: red;
 }
 
 /*# sourceMappingURL=style.css.map */

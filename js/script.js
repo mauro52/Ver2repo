@@ -39,42 +39,29 @@ function DeveloperView(devParam) {
     console.log(devParam);
 }
 
+let playerNameButton = document.getElementById("playerNamebutton");
+playerNameButton.addEventListener("click", function(){getPlayerName()});
+
 function getPlayerName() {
-    playerStats.name = prompt(`Este es un juego de exploración basado en texto. Exploras un Dungeon lleno de enemigos y tesoros. Si tienes suerte, saldrás con vida.\n\nIngrese Nombre del Jugador:`);
+    playerStats.name = document.getElementById("playerName").value;
 
     if (playerStats.name === null || playerStats.name === "") {
-        alert("Nombre invalido");
+        return;
+        /*document.getElementById("spanName").innerHTML = "invalido";
+        document.getElementById("spanName").style.color = "red";
         let names = ["Blade", "Lego", "Mah"];
-        alert("Tu nombre será elegido aleatoreamente");
         min = 0;
         max = names.length - 1;
         playerStats.name = names[Math.floor(Math.random() * (max - min + 1)) + min];
+        */
     }
+    document.getElementById("spanName").style.color = "red";
+    document.getElementById("spanName").innerHTML = playerStats.name;
 }
 
-function gameDifficulty() {
-    let inputDif;
-    do {
-        gameDif = prompt("Ingrese Dificultad:\n - Easy\n - Hard");
-    }
-    while (gameDif === null || gameDif === "");
-
-    inputDif = gameDif.toLowerCase();
-
-    if (inputDif == "hard") {
-        dungeonRooms = 5;
-        gameDif = "Hard";
-        dungeonScore.rooms = dungeonRooms;
-    }
-    else if (inputDif == "easy") {
-        gameDif = "Easy"
-        dungeonScore.rooms = dungeonRooms;
-    }
-    else {
-        alert("Dificultad invalida, seleccionaremos dificultad Easy");
-        gameDif = "Easy";
-        dungeonScore.rooms = dungeonRooms;
-    }
+function gameDifficulty(inputDif) {
+    gameDif = inputDif;
+console.log(gameDif);
 }
 
 function startGame() {
@@ -153,7 +140,7 @@ function treasure() {
     // en desarrollo para proximas entregas
 }
 
-getPlayerName();
-gameDifficulty();
-startGame();
-exploration();
+//getPlayerName();
+//gameDifficulty();
+//startGame();
+//exploration();
