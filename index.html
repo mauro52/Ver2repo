@@ -17,13 +17,17 @@
         <p>Elige tu nombre</p>
         <input id="playerName" type="text">
         <button id="playerNamebutton">Submit</button>
-        <p>Tu nombre es <span id="spanName"></span> </p>
+        <p>Tu nombre es {{playerName}} <span id="spanName"></span> </p>
         <p>Selecciona la dificultad:</p>
-        <button onclick="gameDifficulty(easy)">Easy</button>
-        <button onclick="gameDifficulty(hard)">Hard</button>
+
+        <input type="radio" id="difEasy" name="difficulty" value="easy">
+        <label for="html">Easy</label><br>
+        <input type="radio" id="difHard" name="difficulty" value="hard">
+        <label for="css">Hard</label><br>
+    
     </section>
 
-    
+
 </body>
 
 </html>

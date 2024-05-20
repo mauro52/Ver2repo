@@ -59,9 +59,11 @@ function getPlayerName() {
     document.getElementById("spanName").innerHTML = playerStats.name;
 }
 
+
+
 function gameDifficulty(inputDif) {
     gameDif = inputDif;
-console.log(gameDif);
+    console.log(gameDif);
 }
 
 function startGame() {
