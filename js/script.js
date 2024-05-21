@@ -59,10 +59,21 @@ function getPlayerName() {
     document.getElementById("spanName").innerHTML = playerStats.name;
 }
 
+//let radios = document.getElementsByClassName("divDif")
+//console.log(radios[0].children);
+
+let inputdif = document.getElementById("difEasy");
+console.log(inputdif);
+
+if (inputdif)
 
 
-function gameDifficulty(inputDif) {
-    gameDif = inputDif;
+function gameDifficulty() {
+    if (document.getElementById("difEasy")){
+        console.log("easy");
+    }else if(document.getElementById("difHard")){
+        console.log("hard");
+    }
     console.log(gameDif);
 }
 
