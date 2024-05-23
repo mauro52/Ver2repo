@@ -40,7 +40,7 @@ function DeveloperView(devParam) {
 }
 
 let playerNameButton = document.getElementById("playerNamebutton");
-playerNameButton.addEventListener("click", function(){getPlayerName()});
+playerNameButton.addEventListener("click", function () { getPlayerName() });
 
 function getPlayerName() {
     playerStats.name = document.getElementById("playerName").value;
@@ -62,20 +62,18 @@ function getPlayerName() {
 //let radios = document.getElementsByClassName("divDif")
 //console.log(radios[0].children);
 
-let inputdif = document.getElementById("difEasy");
-console.log(inputdif);
-
-if (inputdif)
-
+let input = document.getElementById("difHard").ariaChecked;
+console.log(input);
 
 function gameDifficulty() {
-    if (document.getElementById("difEasy")){
-        console.log("easy");
-    }else if(document.getElementById("difHard")){
+
+    if (document.getElementById("difEasy").ariaChecked) {
+        console.log("oeasy");
+    } else if (document.getElementById("difHard").ariaChecked) {
         console.log("hard");
     }
-    console.log(gameDif);
 }
+
 
 function startGame() {
     alert(`Bienvenido ${playerStats.name}, la dificultad elegida es ${gameDif} y el Dungeon incluye ${dungeonRooms} rooms `);
@@ -120,7 +118,7 @@ function exploration() {
                 console.log("escape");
                 checktreasure = 0; // Si escapa, no puede buscar tesoros.
             }
-            else{
+            else {
                 alert(`Respuesta inválida. ${currentEnemy} te ataca`);
                 combat(currentEnemy);
             }
@@ -154,6 +152,6 @@ function treasure() {
 }
 
 //getPlayerName();
-//gameDifficulty();
+gameDifficulty();
 //startGame();
 //exploration();
