@@ -39,7 +39,13 @@ function getPlayerName() {
     playerStats.name = document.getElementById("playerName").value;
 
     if (playerStats.name === null || playerStats.name === "") {
-        return;
+        
+        document.getElementById("spanName").innerHTML = "invalido. Elegiremos al azar";
+        document.getElementById("spanName").style.color = "red";
+        let names = ["Blade", "Lego", "Mah", "Lyrion", "Elyndra", "Thalindra", "Kaelithar"];
+        min = 0;
+        max = names.length - 1;
+        playerStats.name = names[Math.floor(Math.random() * (max - min + 1)) + min];
     }
     document.getElementById("spanName").style.color = "red";
     document.getElementById("spanName").innerHTML = playerStats.name;
@@ -49,18 +55,22 @@ let difButton = document.getElementById("difButton");
 difButton.addEventListener("click", function () { gameDifficulty() });
 
 function gameDifficulty() {
+    if (playerStats.name === null || playerStats.name === ""){return}
+
     if (document.getElementById("difEasy").checked) {
-        console.log("oeasy");
         gameDif = "Easy";
     } else if (document.getElementById("difHard").checked) {
-        gameDif = "Hard";;
+        gameDif = "Hard";
+        dungeonRooms = 5;
     }
     startGame();
 }
 
 
 function startGame() {
-    alert(`Bienvenido ${playerStats.name}, la dificultad elegida es ${gameDif} y el Dungeon incluye ${dungeonRooms} rooms `);
+    let getContent = document.getElementById("contentStart")
+    getContent.innerHTML = `<p>Bienvenido ${playerStats.name}, la dificultad elegida es ${gameDif} y el Dungeon incluye ${dungeonRooms} rooms</>`
+
 }
 
 function exploration() {
