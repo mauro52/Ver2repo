@@ -31,47 +31,63 @@ const roomsDescriptions = {
     roomName: ["la Morgue", "la Cripta", "la Sala oscura", "la Bóveda", "la Prisión", "la Sala con una Estatua"],
     roomDesc: ["Antorchas enclavadas en las paredes de piedra proyectan sombras titilantes sobre el suelo polvoriento lleno de tripas. Una pesada puerta de hierro está entreabierta, sus bisagras crujen suavemente en el aire rancio.", "Sarcófagos de piedra descansan en nichos a lo largo de las paredes, sus tapas adornadas con runas descoloridas. El aire está cargado con el olor a descomposición, y telarañas se aferran al techo como velos espectrales.", "Estanterías llenas de frascos y tarros polvorientos alinean las paredes, cada uno conteniendo sustancias misteriosas de varios colores. Un caldero burbujeante se encuentra sobre un fuego crepitante, enviando volutas de humo coloreado al aire.", "Montones de relucientes monedas de oro y gemas preciosas brillan en la luz tenue, amontonadas sobre pedestales de piedra antiguos. Artefactos engastados con joyas y armas ornamentadas se exhiben en estantes forrados de terciopelo, sus superficies pulidas hasta obtener un brillo intenso.", "Barras de hierro dividen las cámaras angostas, cada una con una cama oxidada y un suelo cubierto de paja. Ecos tenues de gemidos distantes y cadenas que golpean llenan el silencio opresivo, otorgando una atmósfera inquietante al aire frío y húmedo.", "Una estatua grandiosa de piedra tallada domina la cámara, flanqueado por otros adornos imponentes de reyes olvidados. Banderas desgarradas cuelgan de las paredes, sus colores descoloridos llevan los sigilos de casas nobles hace mucho extintas."]
 }
+function menuHide(vis){
+    document.getElementById("startGame").style.visibility=vis;
+}
 
-let playerNameButton = document.getElementById("playerNamebutton");
-playerNameButton.addEventListener("click", function () { getPlayerName() });
 
-function getPlayerName() {
-    playerStats.name = document.getElementById("playerName").value;
 
-    if (playerStats.name === null || playerStats.name === "") {
-        
-        document.getElementById("spanName").innerHTML = "invalido. Elegiremos al azar";
+function menuStart() {
+    menuHide('hidden');
+
+    let playerNameButton = document.getElementById("playerNamebutton");
+    playerNameButton.addEventListener("click", function () { getPlayerName() });
+
+    function getPlayerName() {
+        playerStats.name = document.getElementById("playerName").value;
+
+        if (playerStats.name === null || playerStats.name === "") {
+
+            document.getElementById("spanName").innerHTML = "invalido. Elegiremos al azar";
+            document.getElementById("spanName").style.color = "red";
+            let names = ["Blade", "Lego", "Mah", "Lyrion", "Elyndra", "Thalindra", "Kaelithar"];
+            min = 0;
+            max = names.length - 1;
+            playerStats.name = names[Math.floor(Math.random() * (max - min + 1)) + min];
+        }
         document.getElementById("spanName").style.color = "red";
-        let names = ["Blade", "Lego", "Mah", "Lyrion", "Elyndra", "Thalindra", "Kaelithar"];
-        min = 0;
-        max = names.length - 1;
-        playerStats.name = names[Math.floor(Math.random() * (max - min + 1)) + min];
+        document.getElementById("spanName").innerHTML = playerStats.name;
     }
-    document.getElementById("spanName").style.color = "red";
-    document.getElementById("spanName").innerHTML = playerStats.name;
-}
 
-let difButton = document.getElementById("difButton");
-difButton.addEventListener("click", function () { gameDifficulty() });
+    let difButton = document.getElementById("difButton");
+    difButton.addEventListener("click", function () { gameDifficulty() });
 
-function gameDifficulty() {
-    if (playerStats.name === null || playerStats.name === ""){return}
+    function gameDifficulty() {
+        if (playerStats.name === null || playerStats.name === "") { return }
 
-    if (document.getElementById("difEasy").checked) {
-        gameDif = "Easy";
-    } else if (document.getElementById("difHard").checked) {
-        gameDif = "Hard";
-        dungeonRooms = 5;
+        if (document.getElementById("difEasy").checked) {
+            gameDif = "Easy";
+        } else if (document.getElementById("difHard").checked) {
+            gameDif = "Hard";
+            dungeonRooms = 5;
+        }
+
+        startGame();
+
+        menuHide('visible');
+ 
+
     }
-    startGame();
+
+    function startGame() {
+        let getContent = document.getElementById("contentStart")
+        getContent.innerHTML = `<p>Bienvenido ${playerStats.name}, la dificultad elegida es ${gameDif} y el Dungeon incluye ${dungeonRooms} rooms</>`
+
+    }
+
 }
 
 
-function startGame() {
-    let getContent = document.getElementById("contentStart")
-    getContent.innerHTML = `<p>Bienvenido ${playerStats.name}, la dificultad elegida es ${gameDif} y el Dungeon incluye ${dungeonRooms} rooms</>`
-
-}
 
 function exploration() {
     while (dungeonRooms > 0) {
@@ -86,7 +102,6 @@ function exploration() {
         alert(`Te encuentras en ${currentRoom}\n${currentRoomDesc}`);
 
         dungeonRooms--;
-        DeveloperView(dungeonRooms);
 
         //check for encounter (combat) and treasure
         let encounter = Math.random();
@@ -145,7 +160,5 @@ function treasure() {
     // en desarrollo para proximas entregas
 }
 
-//getPlayerName();
-//gameDifficulty();
-//startGame();
+menuStart();
 //exploration();
