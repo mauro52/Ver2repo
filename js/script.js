@@ -33,66 +33,134 @@ const roomsDescriptions = {
 }
 
 function menuHideStartGame(vis) {
+    //start game button visibility and logic
     button = document.getElementById("startGame");
     button.style.visibility = vis;
     button.addEventListener("click", function () { document.location.href = '../pages/game.html' });
-
 }
 
 function currentpage() {
     if (location.pathname == `/index.html`) {
         menuStart();
-    } else {
-        console.log(playerStats.name);
-    }
+    } 
 }
 
 function menuStart() {
-
+    //Hide Start Game
     menuHideStartGame('hidden');
-
+    //Get buttons
     let playerNameButton = document.getElementById("playerNamebutton");
     playerNameButton.addEventListener("click", function () { getPlayerName() });
 
-    function getPlayerName() {
-        playerStats.name = document.getElementById("playerName").value;
-
-        if (playerStats.name === null || playerStats.name === "") {
-
-            document.getElementById("spanName").innerHTML = "invalido. Elegiremos al azar";
-            document.getElementById("spanName").style.color = "red";
-            let names = ["Blade", "Lego", "Mah", "Lyrion", "Elyndra", "Thalindra", "Kaelithar"];
-            min = 0;
-            max = names.length - 1;
-            playerStats.name = names[Math.floor(Math.random() * (max - min + 1)) + min];
-        }
-        document.getElementById("spanName").style.color = "red";
-        document.getElementById("spanName").innerHTML = playerStats.name;
-    }
-
     let difButton = document.getElementById("difButton");
     difButton.addEventListener("click", function () { gameDifficulty() });
-
-    function gameDifficulty() {
-        if (playerStats.name === null || playerStats.name === "") { return }
-
-        if (document.getElementById("difEasy").checked) {
-            gameDif = "Easy";
-        } else if (document.getElementById("difHard").checked) {
-            gameDif = "Hard";
-            dungeonRooms = 5;
-        }
-
-        startGame();
-
-        menuHideStartGame('visible');
-
-    }
-    function startGame() {
-        let getContent = document.getElementById("contentStart")
-        getContent.innerHTML = `<p>Bienvenido ${playerStats.name}, la dificultad elegida es ${gameDif} y el Dungeon incluye ${dungeonRooms} rooms</>`
-    }
 }
 
+function getPlayerName() {
+    playerStats.name = document.getElementById("playerName").value;
+
+    if (playerStats.name === null || playerStats.name === "") {
+
+        document.getElementById("spanName").innerHTML = "invalido. Elegiremos al azar";
+        document.getElementById("spanName").style.color = "red";
+        let names = ["Blade", "Lego", "Mah", "Lyrion", "Elyndra", "Thalindra", "Kaelithar"];
+        min = 0;
+        max = names.length - 1;
+        playerStats.name = names[Math.floor(Math.random() * (max - min + 1)) + min];
+    }
+    document.getElementById("spanName").style.color = "red";
+    document.getElementById("spanName").innerHTML = playerStats.name;
+}
+
+function gameDifficulty() {
+    if (playerStats.name === null || playerStats.name === "") { return }
+
+    if (document.getElementById("difEasy").checked) {
+        gameDif = "Easy";
+    } else if (document.getElementById("difHard").checked) {
+        gameDif = "Hard";
+        dungeonRooms = 5;
+    }
+    startGame();
+    menuHideStartGame('visible');
+}
+
+function startGame() {
+    let getContent = document.getElementById("contentStart")
+    getContent.innerHTML = `<p>Bienvenido ${playerStats.name}, la dificultad elegida es ${gameDif} y el Dungeon incluye ${dungeonRooms} rooms</>`
+}
+
+function exploration() {
+    while (dungeonRooms > 0) {
+        //Get index of Random room and description
+        min = 0;
+        max = roomsDescriptions.roomName.length - 1;
+        let indexRoom = Math.floor(Math.random() * (max - min + 1)) + min;
+
+        let currentRoom = roomsDescriptions.roomName[indexRoom];
+        let currentRoomDesc = roomsDescriptions.roomDesc[indexRoom];
+
+        alert(`${playerStats.name} Te encuentras en ${currentRoom}\n${currentRoomDesc}`);
+
+        dungeonRooms--;
+
+        //check for encounter (combat) and treasure
+        let encounter = Math.random();
+        let checktreasure = Math.random();
+
+        if (encounter <= 0.5) {
+            //Select random enemy
+            min = 0;
+            max = enemies.length - 1;
+            currentEnemy = enemies[Math.floor(Math.random() * (max - min + 1)) + min];
+            alert(`En ${currentRoom}, te encuentras con ${currentEnemy}`);
+
+            let userInput;
+            do {
+                userInput = prompt(`1. Atacar\n2. Escapar:`);
+            }
+            while (userInput === null || userInput === "");
+
+            if (userInput == "1") {
+                combat(currentEnemy);
+            }
+            else if (userInput == "2") {
+                console.log("escape");
+                checktreasure = 0; // Si escapa, no puede buscar tesoros.
+            }
+            else {
+                alert(`Respuesta inválida. ${currentEnemy} te ataca`);
+                combat(currentEnemy);
+            }
+        }
+        if (checktreasure >= 0.75) {
+            treasure();
+        }
+    }
+    exit();
+    score();
+}
+
+function exit() {
+    alert("Encontraste la salida del Dungeon, felicitaciones.");
+}
+
+function score() {
+    alert(`Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`);
+    localStorage.clear(); //CLEAR STORAGE
+}
+
+function combat(enemy) {
+    alert(`Combates con ${enemy} y ganas la batalla. Continuas explorando.`)
+    dungeonScore.kills++;
+    // en desarrollo para proximas entregas
+}
+
+function treasure() {
+    alert("Luego de recorrer la sala, encuentras un tesoro al explorar tus alrededores.");
+    dungeonScore.items++;
+    // en desarrollo para proximas entregas
+}
 
 currentpage();
+
