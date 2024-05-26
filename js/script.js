@@ -1,5 +1,5 @@
 //Game Difficulty defaults
-let gameDif = "Easy";
+let gameDif = "";
 let dungeonRooms = 3;
 
 //player info
@@ -7,16 +7,23 @@ const playerStats = {
     name: "",
     lvl: 1,
     hp: 5,
-    attack: 2
+    attack: 2,
 }
 
 //enemy info
 const enemyStats = {
     lvl: 1,
-    hp: 2,
-    attack: 1
+    baseHp: 1,
+    baseAttack:1,
+
+    calculateHP() {
+        return this.baseHp + this.lvl;},
+
+    calculateAttack(){
+        return this.baseAttack + this.level;},
 }
 
+//final Score
 const dungeonScore = {
     kills: 0,
     rooms: 0,
@@ -26,19 +33,20 @@ const dungeonScore = {
 //enemy types
 const enemies = ["un Orco", "un Goblin", "un Murcielago", "una Rata"];
 
-//Dungeon Rooms and descriptions
+//dungeon Rooms and descriptions
 const roomsDescriptions = {
     roomName: ["la Morgue", "la Cripta", "la Sala oscura", "la Bóveda", "la Prisión", "la Sala con una Estatua"],
     roomDesc: ["Antorchas enclavadas en las paredes de piedra proyectan sombras titilantes sobre el suelo polvoriento lleno de tripas. Una pesada puerta de hierro está entreabierta, sus bisagras crujen suavemente en el aire rancio.", "Sarcófagos de piedra descansan en nichos a lo largo de las paredes, sus tapas adornadas con runas descoloridas. El aire está cargado con el olor a descomposición, y telarañas se aferran al techo como velos espectrales.", "Estanterías llenas de frascos y tarros polvorientos alinean las paredes, cada uno conteniendo sustancias misteriosas de varios colores. Un caldero burbujeante se encuentra sobre un fuego crepitante, enviando volutas de humo coloreado al aire.", "Montones de relucientes monedas de oro y gemas preciosas brillan en la luz tenue, amontonadas sobre pedestales de piedra antiguos. Artefactos engastados con joyas y armas ornamentadas se exhiben en estantes forrados de terciopelo, sus superficies pulidas hasta obtener un brillo intenso.", "Barras de hierro dividen las cámaras angostas, cada una con una cama oxidada y un suelo cubierto de paja. Ecos tenues de gemidos distantes y cadenas que golpean llenan el silencio opresivo, otorgando una atmósfera inquietante al aire frío y húmedo.", "Una estatua grandiosa de piedra tallada domina la cámara, flanqueado por otros adornos imponentes de reyes olvidados. Banderas desgarradas cuelgan de las paredes, sus colores descoloridos llevan los sigilos de casas nobles hace mucho extintas."]
 }
 
+//start game button visibility and fire event game
 function startButton(vis) {
-    //start game button visibility and logic
     button = document.getElementById("startGame");
     button.style.visibility = vis;
     button.addEventListener("click", function() { htmlArrange("none", "menuArea"); htmlArrange("block", "playArea") });
 }
 
+//Prepare if need two js.
 function currentpage() {
     if (location.pathname == `/index.html`) {
         menuStart();
@@ -46,12 +54,12 @@ function currentpage() {
 }
 
 function menuStart() {
-    //Hide Start Game
+    //Hide Start Game Button
     startButton('hidden');
-
+    //Hide Play Area in Menu
     htmlArrange("none", "playArea");
 
-    //Get buttons
+    //Get buttons Ids and Firing PlayerName and Difficulty Functions.
     let playerNameButton = document.getElementById("playerNamebutton");
     playerNameButton.addEventListener("click", function () { getPlayerName() });
 
@@ -63,8 +71,6 @@ function getPlayerName() {
     playerStats.name = document.getElementById("playerName").value;
 
     if (playerStats.name === null || playerStats.name === "") {
-
-        document.getElementById("spanName").innerHTML = "invalido. Elegiremos al azar";
         document.getElementById("spanName").style.color = "red";
         let names = ["Blade", "Lego", "Mah", "Lyrion", "Elyndra", "Thalindra", "Kaelithar"];
         min = 0;
@@ -84,15 +90,20 @@ function gameDifficulty() {
         gameDif = "Hard";
         dungeonRooms = 5;
     }
-    startGame();
-    startButton('visible');
-}
 
+    if(gameDif === null || gameDif ===""){return}
+    
+    startGame();
+    startButton('visible');  
+    }
+
+//Game Summary and Start.
 function startGame() {
     let getContent = document.getElementById("contentStart")
     getContent.innerHTML = `<p>Bienvenido ${playerStats.name}, la dificultad elegida es ${gameDif} y el Dungeon incluye ${dungeonRooms} rooms</>`
 }
 
+// Fc to hide or display HTML (MenuArea and PlayArea)
 function htmlArrange(what, theID){
     let x = document.getElementById(theID);
     x.style.display = what;
@@ -171,4 +182,3 @@ function treasure() {
 }
 
 currentpage();
-
