@@ -14,13 +14,15 @@ const playerStats = {
 const enemyStats = {
     lvl: 1,
     baseHp: 1,
-    baseAttack:1,
+    baseAttack: 1,
 
     calculateHP() {
-        return this.baseHp + this.lvl;},
+        return this.baseHp + this.lvl;
+    },
 
-    calculateAttack(){
-        return this.baseAttack + this.level;},
+    calculateAttack() {
+        return this.baseAttack + this.lvl;
+    },
 }
 
 //final Score
@@ -31,26 +33,26 @@ const dungeonScore = {
 }
 
 //enemy types
-const enemies = ["un Orco", "un Goblin", "un Murcielago", "una Rata"];
+const enemies = ["an Orc", "a Goblin", "Bats", "Rats"];
 
 //dungeon Rooms and descriptions
 const roomsDescriptions = {
-    roomName: ["la Morgue", "la Cripta", "la Sala oscura", "la Bóveda", "la Prisión", "la Sala con una Estatua"],
-    roomDesc: ["Antorchas enclavadas en las paredes de piedra proyectan sombras titilantes sobre el suelo polvoriento lleno de tripas. Una pesada puerta de hierro está entreabierta, sus bisagras crujen suavemente en el aire rancio.", "Sarcófagos de piedra descansan en nichos a lo largo de las paredes, sus tapas adornadas con runas descoloridas. El aire está cargado con el olor a descomposición, y telarañas se aferran al techo como velos espectrales.", "Estanterías llenas de frascos y tarros polvorientos alinean las paredes, cada uno conteniendo sustancias misteriosas de varios colores. Un caldero burbujeante se encuentra sobre un fuego crepitante, enviando volutas de humo coloreado al aire.", "Montones de relucientes monedas de oro y gemas preciosas brillan en la luz tenue, amontonadas sobre pedestales de piedra antiguos. Artefactos engastados con joyas y armas ornamentadas se exhiben en estantes forrados de terciopelo, sus superficies pulidas hasta obtener un brillo intenso.", "Barras de hierro dividen las cámaras angostas, cada una con una cama oxidada y un suelo cubierto de paja. Ecos tenues de gemidos distantes y cadenas que golpean llenan el silencio opresivo, otorgando una atmósfera inquietante al aire frío y húmedo.", "Una estatua grandiosa de piedra tallada domina la cámara, flanqueado por otros adornos imponentes de reyes olvidados. Banderas desgarradas cuelgan de las paredes, sus colores descoloridos llevan los sigilos de casas nobles hace mucho extintas."]
+    roomName: ["a Chamber", "a Crypt", "an Alchemy Laboratory", "a Treasure Vault", "the Prison Cells", "the Statue Room"],
+    roomDesc: ["Torch sconces line the stone walls, casting flickering shadows across the dusty floor. A heavy iron door stands ajar, its hinges creaking softly in the stale air.", "Stone sarcophagi rest in alcoves along the walls, their lids adorned with faded runes. The air is thick with the scent of decay, and cobwebs cling to the ceiling like spectral veils.", "Shelves packed with dusty vials and jars line the walls, each containing mysterious substances of various hues. A bubbling cauldron sits atop a crackling fire, sending tendrils of colored smoke into the air.", "Piles of glittering gold coins and precious gems sparkle in the dim light, heaped upon ancient stone pedestals. Jeweled artifacts and ornate weapons are displayed upon velvet-lined shelves, their surfaces polished to a high sheen.", "Iron bars divide the cramped chambers, each containing a rusted cot and a straw-strewn floor. Faint echoes of distant moans and rattling chains fill the oppressive silence, lending an eerie atmosphere to the cold, damp air.", "A grand throne of ornately carved stone dominates the chamber, flanked by towering statues of forgotten kings. Tattered banners hang from the walls, their faded colors bearing the sigils of long-extinct noble houses."]
 }
 
 //start game button visibility and fire event game
 function startButton(vis) {
     button = document.getElementById("startGame");
     button.style.visibility = vis;
-    button.addEventListener("click", function() { htmlArrange("none", "menuArea"); htmlArrange("block", "playArea") });
+    button.addEventListener("click", function () { htmlArrange("none", "menuArea"); htmlArrange("block", "playArea"); exploration(); });
 }
 
 //Prepare if need two js.
 function currentpage() {
     if (location.pathname == `/index.html`) {
         menuStart();
-    } 
+    }
 }
 
 function menuStart() {
@@ -59,7 +61,7 @@ function menuStart() {
     //Hide Play Area in Menu
     htmlArrange("none", "playArea");
 
-    //Get buttons Ids and Firing PlayerName and Difficulty Functions.
+    //Get buttons Ids and fire PlayerName and Difficulty Functions.
     let playerNameButton = document.getElementById("playerNamebutton");
     playerNameButton.addEventListener("click", function () { getPlayerName() });
 
@@ -91,11 +93,11 @@ function gameDifficulty() {
         dungeonRooms = 5;
     }
 
-    if(gameDif === null || gameDif ===""){return}
-    
+    if (gameDif === null || gameDif === "") { return }
+
     startGame();
-    startButton('visible');  
-    }
+    startButton('visible');
+}
 
 //Game Summary and Start.
 function startGame() {
@@ -104,9 +106,23 @@ function startGame() {
 }
 
 // Fc to hide or display HTML (MenuArea and PlayArea)
-function htmlArrange(what, theID){
+function htmlArrange(blockOrNone, theID) {
     let x = document.getElementById(theID);
-    x.style.display = what;
+    x.style.display = blockOrNone;
+}
+
+function playAreaHTMLroom(xroom, ydesc) {
+    let getID = document.getElementById("room");
+    getID.innerHTML = `You are in ${xroom}`;
+
+    let getID2 = document.getElementById("roomDesc");
+    getID2.innerHTML = ydesc;
+}
+
+function playAreaHTMLencounter(xenemy){
+    let getID = document.getElementById("encounter");
+    getID.innerHTML = `You encountered ${xenemy}!`;
+    getID.style.color = 'red';
 }
 
 function exploration() {
@@ -119,7 +135,7 @@ function exploration() {
         let currentRoom = roomsDescriptions.roomName[indexRoom];
         let currentRoomDesc = roomsDescriptions.roomDesc[indexRoom];
 
-        alert(`${playerStats.name} Te encuentras en ${currentRoom}\n${currentRoomDesc}`);
+        playAreaHTMLroom(currentRoom, currentRoomDesc);
 
         dungeonRooms--;
 
@@ -132,25 +148,20 @@ function exploration() {
             min = 0;
             max = enemies.length - 1;
             currentEnemy = enemies[Math.floor(Math.random() * (max - min + 1)) + min];
-            alert(`En ${currentRoom}, te encuentras con ${currentEnemy}`);
+            playAreaHTMLencounter(currentEnemy);
 
-            let userInput;
-            do {
-                userInput = prompt(`1. Atacar\n2. Escapar:`);
-            }
-            while (userInput === null || userInput === "");
+            //get Action buttons
+            let attackbutton = document.getElementById("attack");
+            attackbutton.addEventListener("click", function () { combat(currentEnemy) });
 
-            if (userInput == "1") {
-                combat(currentEnemy);
-            }
-            else if (userInput == "2") {
-                console.log("escape");
-                checktreasure = 0; // Si escapa, no puede buscar tesoros.
-            }
-            else {
-                alert(`Respuesta inválida. ${currentEnemy} te ataca`);
-                combat(currentEnemy);
-            }
+            let escapebutton = document.getElementById("escape");
+            // Si escapa, no puede buscar tesoros.
+            escapebutton.addEventListener("click", function () { checktreasure = 0});
+
+            //Si hace Search pero hay Encounter. - Algo XXXX
+            let searchbutton = document.getElementById("search");
+            searchbutton.addEventListener("click", function () { combat(currentEnemy) });
+
         }
         if (checktreasure >= 0.75) {
             treasure();
@@ -161,24 +172,21 @@ function exploration() {
 }
 
 function exit() {
-    alert("Encontraste la salida del Dungeon, felicitaciones.");
+    console.log("Encontraste la salida del Dungeon, felicitaciones.");
 }
 
 function score() {
-    alert(`Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`);
-    localStorage.clear(); //CLEAR STORAGE
+    console.log(`Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`);
 }
 
 function combat(enemy) {
-    alert(`Combates con ${enemy} y ganas la batalla. Continuas explorando.`)
+    console.log(`Combates con ${enemy} y ganas la batalla. Continuas explorando.`);
     dungeonScore.kills++;
-    // en desarrollo para proximas entregas
 }
 
 function treasure() {
-    alert("Luego de recorrer la sala, encuentras un tesoro al explorar tus alrededores.");
+    console.log("Luego de recorrer la sala, encuentras un tesoro al explorar tus alrededores.");
     dungeonScore.items++;
-    // en desarrollo para proximas entregas
 }
 
 currentpage();
