@@ -32,11 +32,11 @@ const roomsDescriptions = {
     roomDesc: ["Antorchas enclavadas en las paredes de piedra proyectan sombras titilantes sobre el suelo polvoriento lleno de tripas. Una pesada puerta de hierro está entreabierta, sus bisagras crujen suavemente en el aire rancio.", "Sarcófagos de piedra descansan en nichos a lo largo de las paredes, sus tapas adornadas con runas descoloridas. El aire está cargado con el olor a descomposición, y telarañas se aferran al techo como velos espectrales.", "Estanterías llenas de frascos y tarros polvorientos alinean las paredes, cada uno conteniendo sustancias misteriosas de varios colores. Un caldero burbujeante se encuentra sobre un fuego crepitante, enviando volutas de humo coloreado al aire.", "Montones de relucientes monedas de oro y gemas preciosas brillan en la luz tenue, amontonadas sobre pedestales de piedra antiguos. Artefactos engastados con joyas y armas ornamentadas se exhiben en estantes forrados de terciopelo, sus superficies pulidas hasta obtener un brillo intenso.", "Barras de hierro dividen las cámaras angostas, cada una con una cama oxidada y un suelo cubierto de paja. Ecos tenues de gemidos distantes y cadenas que golpean llenan el silencio opresivo, otorgando una atmósfera inquietante al aire frío y húmedo.", "Una estatua grandiosa de piedra tallada domina la cámara, flanqueado por otros adornos imponentes de reyes olvidados. Banderas desgarradas cuelgan de las paredes, sus colores descoloridos llevan los sigilos de casas nobles hace mucho extintas."]
 }
 
-function menuHideStartGame(vis) {
+function startButton(vis) {
     //start game button visibility and logic
     button = document.getElementById("startGame");
     button.style.visibility = vis;
-    button.addEventListener("click", function () { document.location.href = '../pages/game.html' });
+    button.addEventListener("click", function() { htmlArrange("none", "menuArea"); htmlArrange("block", "playArea") });
 }
 
 function currentpage() {
@@ -47,7 +47,10 @@ function currentpage() {
 
 function menuStart() {
     //Hide Start Game
-    menuHideStartGame('hidden');
+    startButton('hidden');
+
+    htmlArrange("none", "playArea");
+
     //Get buttons
     let playerNameButton = document.getElementById("playerNamebutton");
     playerNameButton.addEventListener("click", function () { getPlayerName() });
@@ -82,12 +85,17 @@ function gameDifficulty() {
         dungeonRooms = 5;
     }
     startGame();
-    menuHideStartGame('visible');
+    startButton('visible');
 }
 
 function startGame() {
     let getContent = document.getElementById("contentStart")
     getContent.innerHTML = `<p>Bienvenido ${playerStats.name}, la dificultad elegida es ${gameDif} y el Dungeon incluye ${dungeonRooms} rooms</>`
+}
+
+function htmlArrange(what, theID){
+    let x = document.getElementById(theID);
+    x.style.display = what;
 }
 
 function exploration() {
