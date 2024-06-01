@@ -10,7 +10,7 @@ const playerStats = {
     attack: 2,
 }
 
-//enemy info
+//enemy info (proximas entregas)
 const enemyStats = {
     lvl: 1,
     baseHp: 1,
@@ -60,7 +60,7 @@ searchbutton.addEventListener("click", searchInRoom);
 let nextRoom = document.getElementById("nextRoom");
 nextRoom.addEventListener("click", nextR);
 
-//start game button visibility and fire event game
+//start game button visibility and start game loop button.
 function startButton(vis) {
     button = document.getElementById("startGame");
     button.style.visibility = vis;
@@ -221,15 +221,10 @@ function inventoryDisplay(){
     }    )
 }
 
-function score() {
-    alert(`Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`);
-}
-
 function combat() {
     console.log(`Combates y ganas la batalla. Continuas explorando.`);
     dungeonScore.kills++;
     attackbutton.style.display = "none";
 }
-
 
 currentpage();
