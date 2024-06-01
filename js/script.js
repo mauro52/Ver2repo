@@ -74,6 +74,7 @@ function currentpage() {
     }
 }
 
+//MENU
 function menuStart() {
     //Hide Start Game Button
     startButton('hidden');
@@ -144,6 +145,7 @@ function playAreaHTMLencounter(xenemy) {
     getID.style.color = 'red';
 }
 
+//START Rooms
 function gameManager() {
     presentRoom();
     encounterinRoom();
@@ -159,6 +161,7 @@ function presentRoom() {
     let currentRoomDesc = roomsDescriptions.roomDesc[indexRoom];
 
     playAreaHTMLroom(currentRoom, currentRoomDesc);
+    dungeonScore.rooms++;
 }
 
 function encounterinRoom() {
@@ -191,6 +194,7 @@ function searchInRoom() {
     searchbutton.style.display = "none";
 };
 
+//Next Room
 function nextR(){
     if (dungeonRooms>0){
         dungeonRooms--;
@@ -199,10 +203,12 @@ function nextR(){
     }
 
     if (dungeonRooms<=0){
-        score();
+        let final = document.getElementById("finalScore");
+        final.innerHTML = `Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`
     }
 }
 
+//Show Inventory with Timer
 function inventoryDisplay(){
     invbutton.style.display = "none";
     let id = document.getElementById("inventoryDis");
@@ -216,7 +222,7 @@ function inventoryDisplay(){
 }
 
 function score() {
-    console.log(`Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`);
+    alert(`Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`);
 }
 
 function combat() {
