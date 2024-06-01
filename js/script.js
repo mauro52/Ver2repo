@@ -50,13 +50,15 @@ let attackbutton = document.getElementById("attack");
 attackbutton.style.display = "none";
 attackbutton.addEventListener("click", combat);
 
-let escapebutton = document.getElementById("inventory");
-escapebutton.addEventListener("click", function () { alert(inventario) });
+let invbutton = document.getElementById("inventory");
+invbutton.addEventListener("click", inventoryDisplay);
 
 let searchbutton = document.getElementById("search");
 searchbutton.style.display = "none";
 searchbutton.addEventListener("click", searchInRoom);
 
+let nextRoom = document.getElementById("nextRoom");
+nextRoom.addEventListener("click", nextR);
 
 //start game button visibility and fire event game
 function startButton(vis) {
@@ -147,7 +149,6 @@ function gameManager() {
     encounterinRoom();
 }
 
-
 function presentRoom() {
     //Get index of Random room and description
     min = 0;
@@ -158,7 +159,6 @@ function presentRoom() {
     let currentRoomDesc = roomsDescriptions.roomDesc[indexRoom];
 
     playAreaHTMLroom(currentRoom, currentRoomDesc);
-
 }
 
 function encounterinRoom() {
@@ -191,8 +191,28 @@ function searchInRoom() {
     searchbutton.style.display = "none";
 };
 
-function exit() {
-    console.log("Encontraste la salida del Dungeon, felicitaciones.");
+function nextR(){
+    if (dungeonRooms>0){
+        dungeonRooms--;
+        gameManager();
+        invbutton.style.display = "block";
+    }
+
+    if (dungeonRooms<=0){
+        score();
+    }
+}
+
+function inventoryDisplay(){
+    invbutton.style.display = "none";
+    let id = document.getElementById("inventoryDis");
+    inventario.forEach(x => {
+        let newItem = document.createElement("p");
+        newItem.textContent = `${x}`
+        id.appendChild(newItem);
+
+        setTimeout(() => { id.removeChild(newItem);}, 3000);
+    }    )
 }
 
 function score() {
@@ -205,9 +225,5 @@ function combat() {
     attackbutton.style.display = "none";
 }
 
-function treasure() {
-    console.log("Luego de recorrer la sala, encuentras un tesoro al explorar tus alrededores.");
-    dungeonScore.items++;
-}
 
 currentpage();
