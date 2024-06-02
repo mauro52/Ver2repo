@@ -48,31 +48,35 @@ const roomsDescriptions = {
 //get IDs
 let attackbutton = document.getElementById("attack");
 attackbutton.style.display = "none";
-attackbutton.addEventListener("click", combat);
+attackbutton.addEventListener("click", function() {combat();});
 
 let invbutton = document.getElementById("inventory");
-invbutton.addEventListener("click", inventoryDisplay);
+invbutton.addEventListener("click", function () {inventoryDisplay();});
 
 let searchbutton = document.getElementById("search");
 searchbutton.style.display = "none";
-searchbutton.addEventListener("click", searchInRoom);
+searchbutton.addEventListener("click", function (){ searchInRoom();});
 
 let nextRoom = document.getElementById("nextRoom");
-nextRoom.addEventListener("click", nextR);
+nextRoom.addEventListener("click", () => {nextR();});
+
+stbutton = document.getElementById("startGame");
+stbutton.addEventListener("click", () => { htmlArrange("none", "menuArea"); htmlArrange("block", "playArea"); gameManager(); });
+
+let restartButton = document.getElementById("restartGame");
+restartButton.addEventListener("click", () => {htmlArrange("block", "menuArea")})
 
 //start game button visibility and start game loop button.
 function startButton(vis) {
-    button = document.getElementById("startGame");
-    button.style.visibility = vis;
-    button.addEventListener("click", function () { htmlArrange("none", "menuArea"); htmlArrange("block", "playArea"); gameManager(); });
+    stbutton.style.visibility = vis;
 }
 
 //Prepare if need two js.
-function currentpage() {
-    if (location.pathname == `/index.html`) {
-        menuStart();
-    }
-}
+//function currentpage() {
+//    if (location.pathname == `/index.html`) {
+//        menuStart();
+//    }
+//}
 
 //MENU
 function menuStart() {
@@ -80,6 +84,8 @@ function menuStart() {
     startButton('hidden');
     //Hide Play Area in Menu
     htmlArrange("none", "playArea");
+    //Hide Restart Game Button
+    restartButton.style.display = "none";
 
     //Get buttons Ids and fire PlayerName and Difficulty Functions.
     let playerNameButton = document.getElementById("playerNamebutton");
@@ -156,11 +162,11 @@ function presentRoom() {
     min = 0;
     max = roomsDescriptions.roomName.length - 1;
     let indexRoom = Math.floor(Math.random() * (max - min + 1)) + min;
-
     let currentRoom = roomsDescriptions.roomName[indexRoom];
     let currentRoomDesc = roomsDescriptions.roomDesc[indexRoom];
-
+    console.log("1room")
     playAreaHTMLroom(currentRoom, currentRoomDesc);
+    dungeonRooms--;
     dungeonScore.rooms++;
 }
 
@@ -177,19 +183,18 @@ function encounterinRoom() {
         attackbutton.style.display = "block";
     }
     searchbutton.style.display = "block"
+
 }
 
 function searchInRoom() {
     let checktreasure = Math.random();
-    console.log("no item")
-    if (checktreasure <= 0.9) {
-        console.log("yes. got item")
-        
+    if (checktreasure <= 0.10) {
         min = 0;
         max = itemPool.length - 1;
         GotItem = itemPool[Math.floor(Math.random() * (max - min + 1)) + min];
         inventario.push(GotItem);
         dungeonScore.items++;
+        console.log("1 item")
     }
     searchbutton.style.display = "none";
 };
@@ -197,14 +202,19 @@ function searchInRoom() {
 //Next Room
 function nextR(){
     if (dungeonRooms>0){
-        dungeonRooms--;
         gameManager();
         invbutton.style.display = "block";
     }
 
     if (dungeonRooms<=0){
-        let final = document.getElementById("finalScore");
-        final.innerHTML = `Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`
+        nextRoom.textContent = "Exit Dungeon";
+        nextRoom.addEventListener("click", () => {
+            menuStart();
+            let final = document.getElementById("finalScore");
+            final.innerHTML = `Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`;
+            restartButton.style.display = "block";
+        })
+
     }
 }
 
@@ -212,9 +222,18 @@ function nextR(){
 function inventoryDisplay(){
     invbutton.style.display = "none";
     let id = document.getElementById("inventoryDis");
+
+    if (inventario[0] == "" || inventario[0] == null){
+        let newItem = document.createElement("p");
+        newItem.textContent = `Nothing in the inventory`
+        id.appendChild(newItem);
+
+        setTimeout(() => { id.removeChild(newItem);}, 3000);
+    }
+
     inventario.forEach(x => {
         let newItem = document.createElement("p");
-        newItem.textContent = `${x}`
+        newItem.textContent = ` \n${x}`
         id.appendChild(newItem);
 
         setTimeout(() => { id.removeChild(newItem);}, 3000);
@@ -222,9 +241,9 @@ function inventoryDisplay(){
 }
 
 function combat() {
-    console.log(`Combates y ganas la batalla. Continuas explorando.`);
+    console.log(`1 kill`);
     dungeonScore.kills++;
     attackbutton.style.display = "none";
 }
 
-currentpage();
+menuStart();
