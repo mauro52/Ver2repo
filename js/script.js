@@ -64,7 +64,9 @@ stbutton = document.getElementById("startGame");
 stbutton.addEventListener("click", () => { htmlArrange("none", "menuArea"); htmlArrange("block", "playArea"); gameManager(); });
 
 let restartButton = document.getElementById("restartGame");
-restartButton.addEventListener("click", () => {htmlArrange("block", "menuArea")})
+restartButton.addEventListener("click", () => {htmlArrange("block", "menuArea");menuStart();})
+
+let finalScore = document.getElementById("finalScore");
 
 //start game button visibility and start game loop button.
 function startButton(vis) {
@@ -86,6 +88,8 @@ function menuStart() {
     htmlArrange("none", "playArea");
     //Hide Restart Game Button
     restartButton.style.display = "none";
+    finalScore.style.display = "none";
+    dungeonRooms = 3;
 
     //Get buttons Ids and fire PlayerName and Difficulty Functions.
     let playerNameButton = document.getElementById("playerNamebutton");
@@ -164,7 +168,7 @@ function presentRoom() {
     let indexRoom = Math.floor(Math.random() * (max - min + 1)) + min;
     let currentRoom = roomsDescriptions.roomName[indexRoom];
     let currentRoomDesc = roomsDescriptions.roomDesc[indexRoom];
-    console.log("1room")
+
     playAreaHTMLroom(currentRoom, currentRoomDesc);
     dungeonRooms--;
     dungeonScore.rooms++;
@@ -183,18 +187,16 @@ function encounterinRoom() {
         attackbutton.style.display = "block";
     }
     searchbutton.style.display = "block"
-
 }
 
 function searchInRoom() {
     let checktreasure = Math.random();
-    if (checktreasure <= 0.10) {
+    if (checktreasure <= 0.50) {
         min = 0;
         max = itemPool.length - 1;
         GotItem = itemPool[Math.floor(Math.random() * (max - min + 1)) + min];
         inventario.push(GotItem);
         dungeonScore.items++;
-        console.log("1 item")
     }
     searchbutton.style.display = "none";
 };
@@ -209,12 +211,12 @@ function nextR(){
     if (dungeonRooms<=0){
         nextRoom.textContent = "Exit Dungeon";
         nextRoom.addEventListener("click", () => {
-            menuStart();
-            let final = document.getElementById("finalScore");
-            final.innerHTML = `Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`;
+            htmlArrange("none", "playArea");
             restartButton.style.display = "block";
-        })
+            finalScore.style.display = "block";
+            finalScore.innerHTML = `Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`;
 
+        })
     }
 }
 
@@ -227,7 +229,6 @@ function inventoryDisplay(){
         let newItem = document.createElement("p");
         newItem.textContent = `Nothing in the inventory`
         id.appendChild(newItem);
-
         setTimeout(() => { id.removeChild(newItem);}, 3000);
     }
 
@@ -235,13 +236,11 @@ function inventoryDisplay(){
         let newItem = document.createElement("p");
         newItem.textContent = ` \n${x}`
         id.appendChild(newItem);
-
         setTimeout(() => { id.removeChild(newItem);}, 3000);
     }    )
 }
 
 function combat() {
-    console.log(`1 kill`);
     dungeonScore.kills++;
     attackbutton.style.display = "none";
 }
