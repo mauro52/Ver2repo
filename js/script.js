@@ -135,8 +135,15 @@ function gameDifficulty() {
 
 //Game Summary before starting
 function startGame() {
+    let last = localStorage.getItem("Last Game");
+
+    let lastP = document.getElementById("lastGame");
+    lastP.innerHTML = `Your Last Game: ${last}`;
+    lastP.style.color = "red";
+    
     let getContent = document.getElementById("contentStart")
-    getContent.innerHTML = `<p>Bienvenido ${playerStats.name}, la dificultad elegida es ${gameDif} y el Dungeon incluye ${dungeonRooms} rooms</>`
+    getContent.innerHTML = `Bienvenido ${playerStats.name}, la dificultad elegida es ${gameDif} y el Dungeon incluye ${dungeonRooms} rooms`
+
 }
 
 // Fc to hide/display HTML (MenuArea and PlayArea)
@@ -223,8 +230,13 @@ function nextR(){
             //restartButton.style.display = "block"; (Probando funcionalidad de restart)
             finalScore.style.display = "block";
             finalScore.innerHTML = `Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`;
+            lastGame();
         })
     }
+}
+
+function lastGame(){
+localStorage.setItem("Last Game", `Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`);
 }
 
 //Show Inventory with Timer
