@@ -89,7 +89,11 @@ function menuStart() {
     //Hide Restart Game Button
     restartButton.style.display = "none";
     finalScore.style.display = "none";
+    //Restart Defaults
     dungeonRooms = 3;
+    dungeonScore.items = 0;
+    dungeonScore.kills = 0;
+    dungeonScore.rooms = 0;
 
     //Get buttons Ids and fire PlayerName and Difficulty Functions.
     let playerNameButton = document.getElementById("playerNamebutton");
@@ -191,12 +195,16 @@ function encounterinRoom() {
 
 function searchInRoom() {
     let checktreasure = Math.random();
-    if (checktreasure <= 0.50) {
+    if (checktreasure <= 0.55) {
         min = 0;
         max = itemPool.length - 1;
         GotItem = itemPool[Math.floor(Math.random() * (max - min + 1)) + min];
         inventario.push(GotItem);
         dungeonScore.items++;
+
+        let itemInfo = document.getElementById("itemInfo");
+        itemInfo.textContent = `You got ${GotItem}`;
+        setTimeout(() => {itemInfo.textContent=""}, 3000);
     }
     searchbutton.style.display = "none";
 };
@@ -212,10 +220,9 @@ function nextR(){
         nextRoom.textContent = "Exit Dungeon";
         nextRoom.addEventListener("click", () => {
             htmlArrange("none", "playArea");
-            restartButton.style.display = "block";
+            //restartButton.style.display = "block"; (Probando funcionalidad de restart)
             finalScore.style.display = "block";
             finalScore.innerHTML = `Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`;
-
         })
     }
 }
@@ -243,6 +250,9 @@ function inventoryDisplay(){
 function combat() {
     dungeonScore.kills++;
     attackbutton.style.display = "none";
+    let enemyInfo = document.getElementById("enemyInfo");
+    enemyInfo.textContent = "Killed";
+    setTimeout(() => {enemyInfo.textContent=""}, 3000);
 }
 
 menuStart();
