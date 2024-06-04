@@ -139,7 +139,7 @@ function startGame() {
     getContent.innerHTML = `<p>Bienvenido ${playerStats.name}, la dificultad elegida es ${gameDif} y el Dungeon incluye ${dungeonRooms} rooms</>`
 }
 
-// Fc to hide or display HTML (MenuArea and PlayArea)
+// Fc to hide/display HTML (MenuArea and PlayArea)
 function htmlArrange(blockOrNone, theID) {
     let x = document.getElementById(theID);
     x.style.display = blockOrNone;
