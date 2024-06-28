@@ -1,7 +1,13 @@
-h1 {
+body {
+  margin: 1rem;
+}
+body header nav {
+  margin-bottom: 3rem;
+}
+
+.game {
   display: flex;
-  justify-content: center;
-  background-color: red;
+  align-items: flex-start;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -57,9 +57,6 @@ nextRoom.addEventListener("click", () => {nextR();});
 stbutton = document.getElementById("startGame");
 stbutton.addEventListener("click", () => { htmlArrange("none", "menuArea"); htmlArrange("block", "playArea"); gameManager(); });
 
-let restartButton = document.getElementById("restartGame");
-restartButton.addEventListener("click", () => {htmlArrange("block", "menuArea");menuStart();})
-
 let finalScore = document.getElementById("finalScore");
 
 //start game button visibility and start game loop button.
@@ -67,21 +64,13 @@ function startButton(vis) {
     stbutton.style.visibility = vis;
 }
 
-//Prepare if need two js.
-//function currentpage() {
-//    if (location.pathname == `/index.html`) {
-//        menuStart();
-//    }
-//}
-
 //MENU
 function menuStart() {
     //Hide Start Game Button
     startButton('hidden');
     //Hide Play Area in Menu
     htmlArrange("none", "playArea");
-    //Hide Restart Game Button
-    restartButton.style.display = "none";
+
     finalScore.style.display = "none";
 
     //Get buttons Ids and fire PlayerName and Difficulty Functions.
@@ -106,7 +95,6 @@ async function getPlayerName() {
     document.getElementById("spanName").style.color = "red";
     document.getElementById("spanName").innerHTML = playerStats.name;
 }
-
 
 function gameDifficulty() {
     if (playerStats.name === null || playerStats.name === "") { return }
@@ -144,7 +132,7 @@ function startGame() {
 
 }
 
-// Fc to hide/display HTML (MenuArea and PlayArea)
+// Func to hide/display HTML (MenuArea and PlayArea)
 function htmlArrange(blockOrNone, theID) {
     let x = document.getElementById(theID);
     x.style.display = blockOrNone;
@@ -230,6 +218,7 @@ function nextR(){
             htmlArrange("none", "playArea");
             finalScore.style.display = "block";
             finalScore.innerHTML = `Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`;
+            console.log(finalScore)
             lastGame();
         })
     }
