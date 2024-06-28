@@ -53,19 +53,25 @@
         </section>
 
         <section id="playArea">
-            <h3>The Dungeon</h3>
-
-            <h4 id="room"></h4>
-            <h5 id="roomDesc"></h5>
-            <h5 id="encounter"></h5>
-            <button type="button" id="attack" class="btn btn-outline-secondary">Attack</button>
-            <button type="button" id="search" class="btn btn-outline-secondary">Search</button>
-            <button type="button" id="inventory" class="btn btn-outline-secondary">Inventory</button>
-            <button type="button" id="nextRoom" class="btn btn-outline-secondary">Next Room</button>
+            <div class="titles">
+                <h3>The Dungeon</h3>
+                <h4 id="room"></h4>
+                <h5 id="roomDesc"></h5>
+                <h5 id="encounter"></h5>
+            </div>
+            <div class="buttons">
+                <button type="button" id="attack" class="btn btn-outline-secondary">Attack</button>
+                <button type="button" id="search" class="btn btn-outline-secondary">Search</button>
+                <button type="button" id="inventory" class="btn btn-outline-secondary">Inventory</button>
+                <button type="button" id="nextRoom" class="btn btn-outline-secondary">Next Room</button>
+            </div>
             <br>
-            <div id="enemyInfo"></div>
-            <div id="itemInfo"></div>
-            <div id="inventoryDis"></div>
+            <hr>
+            <div class="info">
+                <div id="enemyInfo"></div>
+                <div id="itemInfo"></div>
+                <div id="inventoryDis"></div>
+            </div>
         </section>
         <div id="finalScore"></div>
     </main>

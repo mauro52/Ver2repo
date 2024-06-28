@@ -1,12 +1,27 @@
 body{
-    margin: 1rem;
+    margin: 2rem;
 
     header nav{
         margin-bottom: 3rem;
     }
 }
 
-.game{
-display: flex;
-align-items: flex-start;
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    }
+
+.titles{
+    display: flex;
+    flex-direction: column;
+    margin: 2rem;
+    h3{
+        margin-bottom: 1.5rem;
+    }
+}
+
+.info{
+    background-color: gray;
+    font-style: italic;
 }

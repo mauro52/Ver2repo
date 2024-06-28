@@ -184,9 +184,9 @@ function encounterinRoom() {
 
     if (encounter <= 0.5) {
         playAreaHTMLencounter(currentEnemy);
-        attackbutton.style.display = "block";
+        attackbutton.style.display = "flex";
     }
-    searchbutton.style.display = "block"
+    searchbutton.style.display = "flex"
 }
 
 function searchInRoom() {
@@ -201,6 +201,9 @@ function searchInRoom() {
         let itemInfo = document.getElementById("itemInfo");
         itemInfo.textContent = `You got ${GotItem}`;
         setTimeout(() => {itemInfo.textContent=""}, 3000);
+    } else{
+        itemInfo.textContent = 'You found nothing';
+        setTimeout(() => {itemInfo.textContent=""}, 3000);
     }
     searchbutton.style.display = "none";
 };
@@ -209,7 +212,7 @@ function searchInRoom() {
 function nextR(){
     if (dungeonRooms>0){
         gameManager();
-        invbutton.style.display = "block";
+        invbutton.style.display = "flex";
     }
 
     if (dungeonRooms<=0){
@@ -253,7 +256,7 @@ function combat() {
     dungeonScore.kills++;
     attackbutton.style.display = "none";
     let enemyInfo = document.getElementById("enemyInfo");
-    enemyInfo.textContent = "Killed";
+    enemyInfo.textContent = "You killed your enemy";
     setTimeout(() => {enemyInfo.textContent=""}, 3000);
 }
 

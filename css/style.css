@@ -1,13 +1,28 @@
 body {
-  margin: 1rem;
+  margin: 2rem;
 }
 body header nav {
   margin-bottom: 3rem;
 }
 
-.game {
+.buttons {
   display: flex;
-  align-items: flex-start;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.titles {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+}
+.titles h3 {
+  margin-bottom: 1.5rem;
+}
+
+.info {
+  background-color: gray;
+  font-style: italic;
 }
 
 /*# sourceMappingURL=style.css.map */
