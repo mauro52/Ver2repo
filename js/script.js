@@ -103,18 +103,28 @@ function menuStart() {
     difButton.addEventListener("click", function () { gameDifficulty() });
 }
 
-function getPlayerName() {
+async function getPlayerName() {
     playerStats.name = document.getElementById("playerName").value;
 
     if (playerStats.name === null || playerStats.name === "") {
         document.getElementById("spanName").style.color = "red";
-        let names = ["Blade", "Lego", "Mah", "Lyrion", "Elyndra", "Thalindra", "Kaelithar"];
+        const res = await fetch("names.json");
+        const data = await res.json();
         min = 0;
-        max = names.length - 1;
-        playerStats.name = names[Math.floor(Math.random() * (max - min + 1)) + min];
+        max = data.length - 1;
+        playerStats.name = data[Math.floor(Math.random() * (max - min + 1)) + min];
     }
     document.getElementById("spanName").style.color = "red";
     document.getElementById("spanName").innerHTML = playerStats.name;
+}
+
+async function randomName (){        
+    const res = await fetch("names.json");
+    const data = await res.json();
+    min = 0;
+    max = data.length - 1;
+    playerStats.name = data[Math.floor(Math.random() * (max - min + 1)) + min];
+    console.log(playerStats.name);
 }
 
 function gameDifficulty() {
