@@ -35,8 +35,8 @@ const dungeonScore = {
 //enemy types
 const enemies = ["an Orc", "a Goblin", "Bats", "Rats"];
 
+//imvemtory
 let  inventario = [];
-
 const itemPool = ["a Sword", "an Axe", "a Health Potion", "a Shield", "a Spear"];
 
 //get IDs
@@ -83,11 +83,6 @@ function menuStart() {
     //Hide Restart Game Button
     restartButton.style.display = "none";
     finalScore.style.display = "none";
-    //Restart Defaults
-    dungeonRooms = 3;
-    dungeonScore.items = 0;
-    dungeonScore.kills = 0;
-    dungeonScore.rooms = 0;
 
     //Get buttons Ids and fire PlayerName and Difficulty Functions.
     let playerNameButton = document.getElementById("playerNamebutton");
@@ -138,7 +133,7 @@ function startGame() {
 
     Object.keys(items).forEach((item) => {
         let para = document.createElement("p");
-        para.textContent = `Your Last Game: ${items[item]}`;
+        para.textContent = `Your Games: ${items[item]}`;
         lastP.appendChild(para);
 
         lastP.style.color = "red";
@@ -233,7 +228,6 @@ function nextR(){
         nextRoom.textContent = "Exit Dungeon";
         nextRoom.addEventListener("click", () => {
             htmlArrange("none", "playArea");
-            //restartButton.style.display = "block"; (Probando funcionalidad de restart)
             finalScore.style.display = "block";
             finalScore.innerHTML = `Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`;
             lastGame();
