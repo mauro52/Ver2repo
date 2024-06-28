@@ -36,23 +36,23 @@ const dungeonScore = {
 const enemies = ["an Orc", "a Goblin", "Bats", "Rats"];
 
 //imvemtory
-let  inventario = [];
+let inventario = [];
 const itemPool = ["a Sword", "an Axe", "a Health Potion", "a Shield", "a Spear"];
 
 //get IDs
 let attackbutton = document.getElementById("attack");
 attackbutton.style.display = "none";
-attackbutton.addEventListener("click", function() {combat();});
+attackbutton.addEventListener("click", function () { combat(); });
 
 let invbutton = document.getElementById("inventory");
-invbutton.addEventListener("click", function () {inventoryDisplay();});
+invbutton.addEventListener("click", function () { inventoryDisplay(); });
 
 let searchbutton = document.getElementById("search");
 searchbutton.style.display = "none";
-searchbutton.addEventListener("click", function (){ searchInRoom();});
+searchbutton.addEventListener("click", function () { searchInRoom(); });
 
 let nextRoom = document.getElementById("nextRoom");
-nextRoom.addEventListener("click", () => {nextR();});
+nextRoom.addEventListener("click", () => { nextR(); });
 
 stbutton = document.getElementById("startGame");
 stbutton.addEventListener("click", () => { htmlArrange("none", "menuArea"); htmlArrange("block", "playArea"); gameManager(); });
@@ -117,7 +117,7 @@ function startGame() {
     let last = localStorage.getItem("Last Game");
 
     let lastP = document.getElementById("lastGame");
-    const items = {...localStorage}
+    const items = { ...localStorage }
 
     Object.keys(items).forEach((item) => {
         let para = document.createElement("p");
@@ -126,7 +126,7 @@ function startGame() {
 
         lastP.style.color = "red";
     });
-    
+
     let getContent = document.getElementById("contentStart")
     getContent.innerHTML = `Bienvenido ${playerStats.name}, la dificultad elegida es ${gameDif} y el Dungeon incluye ${dungeonRooms} rooms`
 
@@ -162,7 +162,7 @@ async function presentRoom() {
     //Get index of Random room and description
     const res = await fetch("rooms.json");
     const data = await res.json();
-    
+
     min = 0;
     max = data.roomName.length - 1;
     let indexRoom = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -200,56 +200,80 @@ function searchInRoom() {
 
         let itemInfo = document.getElementById("itemInfo");
         itemInfo.textContent = `You got ${GotItem}`;
-        setTimeout(() => {itemInfo.textContent=""}, 3000);
-    } else{
+        setTimeout(() => { itemInfo.textContent = "" }, 3000);
+    } else {
         itemInfo.textContent = 'You found nothing';
-        setTimeout(() => {itemInfo.textContent=""}, 3000);
+        setTimeout(() => { itemInfo.textContent = "" }, 3000);
     }
     searchbutton.style.display = "none";
 };
 
 //Next Room
-function nextR(){
-    if (dungeonRooms>0){
+function nextR() {
+    if (dungeonRooms > 0) {
         gameManager();
         invbutton.style.display = "flex";
     }
 
-    if (dungeonRooms<=0){
+    if (dungeonRooms <= 0) {
         nextRoom.textContent = "Exit Dungeon";
         nextRoom.addEventListener("click", () => {
             htmlArrange("none", "playArea");
             finalScore.style.display = "block";
-            finalScore.innerHTML = `Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`;
-            console.log(finalScore)
+            let texto = `Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`;
+            
+            let timerInterval;
+
+            Swal.fire({
+                title: "Game Finished!",
+                html: texto,
+                timer: 4000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    const timer = Swal.getPopup().querySelector("b");
+                    timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                    }, 100);
+                },
+                willClose: () => {
+                    clearInterval(timerInterval);
+                }
+            }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    location.reload();
+                }
+            });
+
             lastGame();
         })
     }
 }
 
-function lastGame(){
+function lastGame() {
     let numero = localStorage.length++
     localStorage.setItem('Last Game' + numero, `${playerStats.name} recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`);
 }
 
 //Show Inventory with Timer
-function inventoryDisplay(){
+function inventoryDisplay() {
     invbutton.style.display = "none";
     let id = document.getElementById("inventoryDis");
 
-    if (inventario[0] == "" || inventario[0] == null){
+    if (inventario[0] == "" || inventario[0] == null) {
         let newItem = document.createElement("p");
         newItem.textContent = `Nothing in the inventory`
         id.appendChild(newItem);
-        setTimeout(() => { id.removeChild(newItem);}, 3000);
+        setTimeout(() => { id.removeChild(newItem); }, 3000);
     }
 
     inventario.forEach(x => {
         let newItem = document.createElement("p");
         newItem.textContent = ` \n${x}`
         id.appendChild(newItem);
-        setTimeout(() => { id.removeChild(newItem);}, 3000);
-    }    )
+        setTimeout(() => { id.removeChild(newItem); }, 3000);
+    })
 }
 
 function combat() {
@@ -257,7 +281,7 @@ function combat() {
     attackbutton.style.display = "none";
     let enemyInfo = document.getElementById("enemyInfo");
     enemyInfo.textContent = "You killed your enemy";
-    setTimeout(() => {enemyInfo.textContent=""}, 3000);
+    setTimeout(() => { enemyInfo.textContent = "" }, 3000);
 }
 
 menuStart();
