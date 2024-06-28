@@ -10,7 +10,7 @@ const playerStats = {
     attack: 2,
 }
 
-//enemy info (proximas entregas)
+//enemy info (evolucion del juego)
 const enemyStats = {
     lvl: 1,
     baseHp: 1,
@@ -38,12 +38,6 @@ const enemies = ["an Orc", "a Goblin", "Bats", "Rats"];
 let  inventario = [];
 
 const itemPool = ["a Sword", "an Axe", "a Health Potion", "a Shield", "a Spear"];
-
-//dungeon Rooms and descriptions
-const roomsDescriptions = {
-    roomName: ["a Chamber", "a Crypt", "an Alchemy Laboratory", "a Treasure Vault", "the Prison Cells", "the Statue Room"],
-    roomDesc: ["Torch sconces line the stone walls, casting flickering shadows across the dusty floor. A heavy iron door stands ajar, its hinges creaking softly in the stale air.", "Stone sarcophagi rest in alcoves along the walls, their lids adorned with faded runes. The air is thick with the scent of decay, and cobwebs cling to the ceiling like spectral veils.", "Shelves packed with dusty vials and jars line the walls, each containing mysterious substances of various hues. A bubbling cauldron sits atop a crackling fire, sending tendrils of colored smoke into the air.", "Piles of glittering gold coins and precious gems sparkle in the dim light, heaped upon ancient stone pedestals. Jeweled artifacts and ornate weapons are displayed upon velvet-lined shelves, their surfaces polished to a high sheen.", "Iron bars divide the cramped chambers, each containing a rusted cot and a straw-strewn floor. Faint echoes of distant moans and rattling chains fill the oppressive silence, lending an eerie atmosphere to the cold, damp air.", "A grand throne of ornately carved stone dominates the chamber, flanked by towering statues of forgotten kings. Tattered banners hang from the walls, their faded colors bearing the sigils of long-extinct noble houses."]
-}
 
 //get IDs
 let attackbutton = document.getElementById("attack");
@@ -118,14 +112,6 @@ async function getPlayerName() {
     document.getElementById("spanName").innerHTML = playerStats.name;
 }
 
-async function randomName (){        
-    const res = await fetch("names.json");
-    const data = await res.json();
-    min = 0;
-    max = data.length - 1;
-    playerStats.name = data[Math.floor(Math.random() * (max - min + 1)) + min];
-    console.log(playerStats.name);
-}
 
 function gameDifficulty() {
     if (playerStats.name === null || playerStats.name === "") { return }
@@ -189,13 +175,16 @@ function gameManager() {
     encounterinRoom();
 }
 
-function presentRoom() {
+async function presentRoom() {
     //Get index of Random room and description
+    const res = await fetch("rooms.json");
+    const data = await res.json();
+    
     min = 0;
-    max = roomsDescriptions.roomName.length - 1;
+    max = data.roomName.length - 1;
     let indexRoom = Math.floor(Math.random() * (max - min + 1)) + min;
-    let currentRoom = roomsDescriptions.roomName[indexRoom];
-    let currentRoomDesc = roomsDescriptions.roomDesc[indexRoom];
+    let currentRoom = data.roomName[indexRoom];
+    let currentRoomDesc = data.roomDesc[indexRoom];
 
     playAreaHTMLroom(currentRoom, currentRoomDesc);
     dungeonRooms--;
