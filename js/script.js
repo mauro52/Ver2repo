@@ -12,6 +12,7 @@ const playerStats = {
 
 //enemy info (evolucion del juego)
 const enemyStats = {
+    currentEnemy: "",
     lvl: 1,
     baseHp: 1,
     baseAttack: 1,
@@ -31,9 +32,6 @@ const dungeonScore = {
     rooms: 0,
     items: 0
 }
-
-//enemy types
-const enemies = ["an Orc", "a Goblin", "Bats", "Rats"];
 
 //imvemtory
 let inventario = [];
@@ -56,6 +54,8 @@ nextRoom.addEventListener("click", () => { nextR(); });
 
 stbutton = document.getElementById("startGame");
 stbutton.addEventListener("click", () => { htmlArrange("none", "menuArea"); htmlArrange("block", "playArea"); gameManager(); });
+
+let iDencounter = document.getElementById("encounter");
 
 let finalScore = document.getElementById("finalScore");
 
@@ -147,9 +147,8 @@ function playAreaHTMLroom(xroom, ydesc) {
 }
 
 function playAreaHTMLencounter(xenemy) {
-    let getID = document.getElementById("encounter");
-    getID.innerHTML = `You encountered ${xenemy}!`;
-    getID.style.color = 'red';
+    iDencounter.innerHTML = `You encountered ${xenemy}!`;
+    iDencounter.style.color = 'red';
 }
 
 //START Rooms
@@ -174,17 +173,27 @@ async function presentRoom() {
     dungeonScore.rooms++;
 }
 
-function encounterinRoom() {
+async function encounterinRoom() {
     //check for encounter (combat)
     let encounter = Math.random();
-    //Select random enemy
-    min = 0;
-    max = enemies.length - 1;
-    currentEnemy = enemies[Math.floor(Math.random() * (max - min + 1)) + min];
 
     if (encounter <= 0.5) {
-        playAreaHTMLencounter(currentEnemy);
+        iDencounter.style.display = "block";
+        const res = await fetch("assets.json");
+        const data = await res.json();
+    
+        min = 0;
+        max = data.enemies.length - 1;
+    
+        let index = Math.floor(Math.random() * (max - min + 1)) + min;
+        enemyStats.currentEnemy = data.enemies[index];
+        console.log(enemyStats.currentEnemy);
+
+        playAreaHTMLencounter(enemyStats.currentEnemy);
         attackbutton.style.display = "flex";
+    }
+    else{
+        iDencounter.style.display = "none";
     }
     searchbutton.style.display = "flex"
 }

@@ -1,0 +1,4 @@
+{
+    "enemies": ["an Orc", "a Goblin", "Bats", "Rats"],
+    "itemPool": ["a Sword", "an Axe", "a Health Potion", "a Shield", "a Spear"]
+}
