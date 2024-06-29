@@ -223,7 +223,6 @@ function nextR() {
             let texto = `Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`;
             
             let timerInterval;
-
             Swal.fire({
                 title: "Game Finished!",
                 html: texto,
