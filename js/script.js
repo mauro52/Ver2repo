@@ -261,7 +261,7 @@ function nextR() {
 
 function lastGame() {
     let numero = localStorage.length++
-    localStorage.setItem('Last Game' + numero, `${playerStats.name} recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`);
+    localStorage.setItem('Last Game' + numero, `${playerStats.name} recorriste ${dungeonScore.rooms} salas, encontraste la salida, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`);
 }
 
 //Show Inventory with Timer
