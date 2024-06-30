@@ -35,7 +35,6 @@ const dungeonScore = {
 
 //imvemtory
 let inventario = [];
-const itemPool = ["a Sword", "an Axe", "a Health Potion", "a Shield", "a Spear"];
 
 //get IDs
 let attackbutton = document.getElementById("attack");
@@ -82,6 +81,7 @@ function menuStart() {
 }
 
 async function getPlayerName() {
+    try{
     playerStats.name = document.getElementById("playerName").value;
 
     if (playerStats.name === null || playerStats.name === "") {
@@ -94,6 +94,15 @@ async function getPlayerName() {
     }
     document.getElementById("spanName").style.color = "red";
     document.getElementById("spanName").innerHTML = playerStats.name;
+}
+catch(error){
+    console.log(error)
+    Swal.fire({
+        title: "Nombre incorrecto!",
+        text: "Lo sentimos, este es el error: " + error,
+        icon: "question"
+      });
+}
 }
 
 function gameDifficulty() {
@@ -181,29 +190,32 @@ async function encounterinRoom() {
         iDencounter.style.display = "block";
         const res = await fetch("assets.json");
         const data = await res.json();
-    
+
         min = 0;
         max = data.enemies.length - 1;
-    
+
         let index = Math.floor(Math.random() * (max - min + 1)) + min;
         enemyStats.currentEnemy = data.enemies[index];
-        console.log(enemyStats.currentEnemy);
 
         playAreaHTMLencounter(enemyStats.currentEnemy);
         attackbutton.style.display = "flex";
     }
-    else{
+    else {
         iDencounter.style.display = "none";
     }
     searchbutton.style.display = "flex"
 }
 
-function searchInRoom() {
+async function searchInRoom() {
     let checktreasure = Math.random();
     if (checktreasure <= 0.55) {
+        const res = await fetch("assets.json");
+        const data = await res.json();
+
         min = 0;
-        max = itemPool.length - 1;
-        GotItem = itemPool[Math.floor(Math.random() * (max - min + 1)) + min];
+        max = data.itemPool.length - 1;
+
+        GotItem = data.itemPool[Math.floor(Math.random() * (max - min + 1)) + min];
         inventario.push(GotItem);
         dungeonScore.items++;
 
@@ -229,9 +241,10 @@ function nextR() {
         nextRoom.addEventListener("click", () => {
             htmlArrange("none", "playArea");
             finalScore.style.display = "block";
-            let texto = `Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros`;
-            
+            let texto = `Recorriste ${dungeonScore.rooms} salas, mataste ${dungeonScore.kills} de los enemigos y encontraste ${dungeonScore.items} de los tesoros <br> Closing in: <b></b>`;
+
             let timerInterval;
+
             Swal.fire({
                 title: "Game Finished!",
                 html: texto,
@@ -250,7 +263,7 @@ function nextR() {
             }).then((result) => {
                 /* Read more about handling dismissals below */
                 if (result.dismiss === Swal.DismissReason.timer) {
-                    location.reload();
+                    window.location.reload();
                 }
             });
 
